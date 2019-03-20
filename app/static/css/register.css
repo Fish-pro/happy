@@ -1,0 +1,170 @@
+/*清除浏览器的默认样式*/
+body,h1,h2,h3,h4,h5,h6,p,ul,ol{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+body{
+	font:12px "微软雅黑","黑体";
+	color:#9a9a9a;
+	background:#DBDBDB;
+}
+a{
+	text-decoration:none;
+	color:#9a9a9a;
+}
+a:hover{
+	color:#64a131;
+}
+
+/*1.导航栏*/
+/*设置顶部横条container*/
+#container{
+	width:100%;
+	background:#F58171;
+	height:70px;
+}
+/*导航栏*/
+#nav{
+	width:990px;
+	margin:0 auto;
+}
+/*标题和列表栏左浮*/
+#logo{
+	float:left;
+	margin-right:25px;
+}
+#logo img{
+	height:70px;
+}
+#leftNav{
+	float:left;
+}
+/*登录注册右浮*/
+#rightNav{
+	float:right;
+}
+/*列表栏设置*/
+#leftNav a{
+	width:92px;
+	float:left;
+	font:20px "微软雅黑";
+	color:white;
+	margin-right:25px;
+	line-height:70px;
+	text-align:center;
+	cursor:pointer;
+}
+/*登录注册样式*/
+#rightNav>a{
+	font-size:15px;
+	color:white;
+	line-height:70px;
+	margin-right:20px;
+}
+
+/* 注册样式 */
+
+#register_main{
+	width:990px;
+	height:500px;
+	margin:20px auto;
+	background:white;
+}
+#register_left{
+	width:600px;
+	float:left;
+}
+#register_right{
+	float:left;
+	margin-top:30px;
+}
+#register_left>div{
+	width:420px;
+	float:right;
+	margin-top:50px;
+}
+#register_left p{
+	margin-bottom:10px;
+	width:420px;
+	font-size:15px;
+	color:black;
+}
+#register_left .registerInput{
+	width:296px;
+	height:26px;
+}
+#register_left h1{
+	color:red;
+	margin-bottom:20px;
+}
+#register_left span{
+	color:black;
+	font-size:15px;
+}
+#check{
+	display:inline-block;
+	overflow:hidden;
+}
+#register_left #check input{
+	width:160px;
+	height:26px;
+	float:left;
+	margin-right:4px;
+}
+#register_left #check button{
+	width:132px;
+	height:32px;
+	float:left;
+}
+#check span{
+	height:32px;
+	line-height:32px;
+	margin-left:4px;
+}
+#register_left #gender{
+	color:black;
+	font-size:15px;
+}
+#register_left #gender input{
+	margin-left:20px;
+}
+#btnRegister{
+	width:300px;
+	height:32px;
+	background:red;
+	font-size:18px;
+	color:white;
+	border:2px solid red;
+}
+/* 版权栏 */
+#end{
+	width:100%;
+	height:100px;
+	background:#5F434B;
+	margin-top:0;
+}
+#end>div{
+	width:500px;
+	margin:0 auto;
+	text-align:center;
+	padding-top:30px;
+}
+
+/* 悬浮广告 */
+#qq{
+	margin-bottom:30px;
+}
+#adj{
+	position:fixed;
+	right:30px;
+	bottom:20px;
+}
+#adj img{
+	width:80px;
+	height:80px;
+	opacity:.7;
+}
+#adj img:hover{
+	opacity:1;	
+}

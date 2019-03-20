@@ -1,0 +1,167 @@
+/*����������Ĭ����ʽ*/
+body,h1,h2,h3,h4,h5,h6,p,ul,ol{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+body{
+	font:12px "΢���ź�","����";
+	color:#9a9a9a;
+	background:#DBDBDB;
+}
+a{
+	text-decoration:none;
+	color:#9a9a9a;
+}
+a:hover{
+	color:#64a131;
+}
+
+/*1.������*/
+/*���ö�������container*/
+#container{
+	width:100%;
+	background:#F58171;
+	height:70px;
+}
+/*������*/
+#nav{
+	width:990px;
+	margin:0 auto;
+}
+/*������б�����*/
+#logo{
+	float:left;
+	margin-right:25px;
+}
+#logo img{
+	height:70px;
+}
+#leftNav{
+	float:left;
+}
+/*��¼ע���Ҹ�*/
+#rightNav{
+	float:right;
+}
+/*�б�������*/
+#leftNav a{
+	width:92px;
+	float:left;
+	font:20px "微软雅黑";
+	color:white;
+	margin-right:25px;
+	line-height:70px;
+	text-align:center;
+	cursor:pointer;
+}
+/*��¼ע����ʽ*/
+#rightNav>a{
+	font-size:15px;
+	color:white;
+	line-height:70px;
+	margin-right:20px;
+}
+/* ��½���� */
+#login_main{
+	width:990px;
+	height:500px;
+	margin:20px auto;
+	background:white;
+}
+#login_left{
+	width:600px;
+	float:left;
+
+}
+#login_right{
+	float:left;
+	margin-top:30px;
+}
+#login_left>div{
+	width:300px;
+	margin-top:120px;
+	margin-left:240px;
+}
+#login_left h1{
+	color:red;
+	margin-bottom:30px;
+}
+#login_left input{
+	width:300px;
+	height:30px;
+	margin-bottom:10px;
+}
+
+#login_left #active{
+	width:20px;
+	height:20px;
+	margin-top:0;
+	margin-left:0;
+	float:left;
+}
+#login_left .loginInput{
+	width:296px;
+	height:26px;
+	font-size:15px;
+	line-height:15px;
+}
+#login_left a{
+	display:inline-block;
+	color:black;
+	font-size:14px;
+	height:20px;
+	line-height:20px;
+}
+#login_left a:hover{
+	color:red;
+}
+#ifactive{
+	overflow:hidden;
+}
+#login_left #auto{
+	float:left;
+}
+#login_left #forget{
+	float:right;
+}
+#submit input{
+	height:32px;
+	background:red;
+	font-size:15px;
+	color:white;
+	border:2px solid red;
+}
+
+
+/* ��Ȩ�� */
+#end{
+	width:100%;
+	height:100px;
+	background:#5F434B;
+	margin-top:0;
+}
+#end>div{
+	width:500px;
+	margin:0 auto;
+	text-align:center;
+	padding-top:30px;
+}
+
+/* ������� */
+#qq{
+	margin-bottom:30px;
+}
+#adj{
+	position:fixed;
+	right:30px;
+	bottom:20px;
+}
+#adj img{
+	width:80px;
+	height:80px;
+	opacity:.7;
+}
+#adj img:hover{
+	opacity:1;	
+}

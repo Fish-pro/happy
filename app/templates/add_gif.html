@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>发图片</title>
+    <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/write_picture.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/add_gif.css" type="text/css">
+</head>
+<body>
+<!--1.标题栏-->
+<div id="container">
+    <!--1.1导航栏-->
+    <div id="nav">
+        <!--1.1.1logo -->
+        <div id="logo"><img src="../static/images/dog.png"></div>
+        <!--1.1.2左侧导航栏-->
+        <div id="leftNav">
+            <a href="/">最新帖子</a>
+			<a href="/list">排行榜</a>
+			<a href="/class">帖子分类</a>
+			<a href="/friends">好友动态</a>
+			<a href="/myspace">个人中心</a>
+        </div>
+        <!--1.1.3登录/注册-->
+        <div id="rightNav">
+            <a href="/login">登录</a>
+            <a href="/register">注册</a>
+        </div>
+    </div>
+</div>
+<!--2.主体内容-->
+<div id="main">
+    <!--2.1左边主体内容-->
+    <div id="leftMain">
+        <!--2.1.1分时导航栏-->
+        <div id="timeNav">
+            <a href="/add_word" class="writeWord">发段子</a>
+            <a href="/add_picture">发图片</a>
+            <a href="/add_gif" class="add_gif">发动图</a>
+            <a href="/add_video">发视频</a>
+        </div>
+        <!--2.1.2永久悬浮导航栏-->
+        <div id="mainNav">
+            <ul>
+                <li>首页</li>
+                <li>段子</li>
+                <li>图片</li>
+                <li>动图</li>
+                <li>视频</li>
+            </ul>
+        </div>
+        <!--2.1.3显示内容-->
+		<div id="witeContent">
+			<form action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="uid" value="{{ params.user.id }}">
+                <input type="hidden" name="type" value="3">
+				<p>
+					<input type="text" name="title" id="contenTitle" placeholder="标题">
+				</p>
+				<p id="file">
+					<input type="file" name="picture">
+				</p>
+				<p id="writeEnd">
+					<input type="submit" value="分享">
+				</p>
+			</form>
+		</div>
+    </div>
+    <!--2.3右边主体内容-->
+    <div id="rightMain">
+        <!--2.3.1发帖-->
+        {%if params.user%}
+		    <div id="userInfo">
+			<div id="headBg">
+				<img src="../static/images/class.jpg">
+				<div id="headPhoto">
+					<img src="{{ params.user.head_path }}">
+				</div>
+			</div>
+			<div id="friendsInfo">
+				<h3>{{ params.user.name }}</h3>
+				<p>性别：
+                    {% if params.user.gender==1 %}
+                        男
+                    {% else %}
+                        女
+                    {% endif %}
+                </p>
+				<p>手机：{{ params.user.phone }}</p>
+				<p>邮箱：{{ params.user.email }}</p>
+				<p id="changeInfo">修改个人资料</p>
+				<div>
+					<table>
+						<tr>
+							<td>9999</td>
+							<td>9999</td>
+							<td class="tdend">9999</td>
+						</tr>
+						<tr>
+							<td>粉丝</td>
+							<td>关注</td>
+							<td class="tdend">帖子</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+        {%endif%}
+        <div id="addBlog">
+			<div>
+				<img src="../static/images/pen.png">
+				<a href="#">发段子</a>
+				<img src="../static/images/picture.png">
+				<a href="#">发图片</a>
+			</div>
+			<div>
+				<img src="../static/images/map.png">
+				<a href="#">发动图</a>
+				<img src="../static/images/video.png">
+				<a href="#">发视频</a>
+			</div>
+        </div>
+        <!--2.3.2用户排行榜-->
+        <div id="addList">
+            <p>发帖排行榜</p>
+            <div class="list">
+                <div class="head"><img src="../static/images/head.gif"></div>
+                <span class="username"><b>用户名称：</b>333条帖子</span>
+                <span class="becomeFan">+关注</span>
+            </div>
+            <div class="list">
+                <div class="head"><img src="../static/images/head.gif"></div>
+                <span class="username"><b>用户名称：</b>333条帖子</span>
+                <span class="becomeFan">+关注</span>
+            </div>
+            <div class="list">
+                <div class="head"><img src="../static/images/head.gif"></div>
+                <span class="username"><b>用户名称：</b>333条帖子</span>
+                <span class="becomeFan">+关注</span>
+            </div>
+            <div class="list">
+                <div class="head"><img src="../static/images/head.gif"></div>
+                <span class="username"><b>用户名称：</b>333条帖子</span>
+                <span class="becomeFan">+关注</span>
+            </div>
+            <div class="list">
+                <div class="head"><img src="../static/images/head.gif"></div>
+                <span class="username"><b>用户名称：</b>333条帖子</span>
+                <span class="becomeFan">+关注</span>
+            </div>
+        </div>
+        <!--2.3.3精彩段子-->
+        <div class="niceWord">
+            <p>精彩段子</p>
+            <ol>
+                <li>段子titlewefasdfaef</li>
+                <li>段子titlefaefaewfae</li>
+                <li>段子titlefawefaf</li>
+                <li>段子titleawefawfe</li>
+            </ol>
+        </div>
+        <!--2.3.4精彩图片-->
+        <div class="nicePhoto">
+            <p>精彩图片</p>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片title</p>
+            </div>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片title</p>
+            </div>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片title</p>
+            </div>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片title</p>
+            </div>
+        </div>
+        <!--2.3.5精彩动图-->
+        <div class="nicePhoto">
+            <p>精彩动图</p>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片title</p>
+            </div>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片title</p>
+            </div>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片title</p>
+            </div>
+            <div class="nicePh">
+                <img src="../static/images/book.jpg">
+                <p>图片titlesddfjsdjkfskdjgkdsgj</p>
+            </div>
+        </div>
+        <!--2.3.6精彩视频-->
+        <div class="niceWord">
+            <p>精彩视频</p>
+            <ol>
+                <li>视频title</li>
+                <li>视频title</li>
+                <li>视频title</li>
+                <li>视频title</li>
+            </ol>
+        </div>
+    </div>
+</div>
+<!--3.版权栏-->
+<div id="end">
+    <div>
+        <div id="endTop">
+            <a href="#" target="_blank">关于我们</a> |
+            <a href="#" target="_blank">广告投放</a> |
+            <a href="#" target="_blank">版权声明</a> |
+            <a href="#" target="_blank">免责声明</a> |
+            <a href="#" target="_blank">网站地图</a> |
+            <a href="#" target="_blank">友情链接</a> |
+            <a href="#" target="blank">在线交谈</a>
+        </div>
+        <div id="endCopy">
+            <p>版权所有 2006-2018 设计之家(www.douniwan.com)</p>
+            <p>Copyright © 2006-2018 www.douniwan.com All rights reserved.</p>
+        </div>
+    </div>
+</div>
+<!--悬浮框-->
+<div id="adj">
+    <div id="qq">
+        <img src="../static/images/qq.png">
+    </div>
+    <div id="wechat">
+        <img src="../static/images/wechat.png">
+    </div>
+</div>
+</body>
+</html>
+
+
