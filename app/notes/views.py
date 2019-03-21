@@ -2,6 +2,7 @@
 只处理与帖子相关的路由和视图
 """
 import datetime
+import math
 import os
 import json
 
@@ -165,21 +166,54 @@ def add_video_views():
 # 处理永久导航分类栏
 @notes.route("/longclass")
 def longclass_views():
+    # 读取所有用户信息
     users = Users.query.all()
     users = sorted(users, key=sort_notes, reverse=True)[0:6]
     words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
     pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
     gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
     videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
+    # 判断是否有登录用户(id和name)
+    if "id" in session and "name" in session:
+        id = session['id']
+        user = Users.query.filter_by(id=id).first()
+        fans = db.session.query(User_attention.user_fan_id).filter(User_attention.user_star_id == id)
+        idos = db.session.query(User_attention.user_star_id).filter(User_attention.user_fan_id == id)
+        l2 = []
+        for j in idos.all():
+            l2.append(j[0])
+    # 每页显示的记录数量
+    pageSize = 20
+    # 接收前段传过来的参数page,,如果没有传递过来，则默认为１，并保存在page变量中
+    page = int(request.args.get('page', 1))
+    ost = (page - 1) * pageSize
+    if "choosePage" in request.args:
+        choosePage = int(request.args["choosePage"])
+        ost = (choosePage - 1) * pageSize
+        page = choosePage
+    # notes = db.session.query(Notes).offset(ost).limit(pageSize).all()
+    notes = Notes.query.all()[::-1]
+    notes = notes[ost:(ost + pageSize)]
+    # 根据pageSize计算尾页
+    totalCount = db.session.query(Notes).count()
+    lastPage = math.ceil(totalCount / pageSize)
+    # 计算上一页
+    prePage = page - 1
+    if prePage < 1:
+        prePage = 1
+    # 计算下一页
+    nextPage = lastPage
+    if page < lastPage:
+        nextPage = page + 1
+
     type = int(request.args['type'])
     contents = Note_content.query.filter_by(type=type).all()
     notes = []
     for con in contents:
         notes.append(con.note)
     notes = notes[::-1]
-    if "id" in session and "name" in session:
-        id = session['id']
-        user = Users.query.filter_by(id=id).first()
+
+
     return render_template("index.html", params=locals())
 
 
@@ -255,4 +289,25 @@ def com_unlike_views():
     db.session.add(comment)
     dict = {"down": comment.down}
     jsonStr = json.dumps(dict)
+    return jsonStr
+
+
+@notes.route("/addbook")
+def addbook_views():
+    try:
+        note_id = request.args["note_id"]
+
+        id = session["id"]
+        attention1 = User_note_attention.query.filter_by(user_id=id, note_id=note_id).first()
+        if attention1:
+            res = {"num":2}
+        else:
+            attention = User_note_attention()
+            attention.note_id = note_id
+            attention.user_id = id
+            db.session.add(attention)
+            res = {"num": 1}
+    except:
+        res = {"num": 0}
+    jsonStr = json.dumps(res)
     return jsonStr

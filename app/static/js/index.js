@@ -72,7 +72,7 @@ $(function () {
 
 
     //踩功能
-     $(".contentBottom .unlike img").click(function () {
+    $(".contentBottom .unlike img").click(function () {
         if (user_active == "0") {
             alert("登陆之后才能踩哦！");
         } else {
@@ -93,36 +93,101 @@ $(function () {
 
     //评论点赞
     $(".com_like img").click(function () {
-        var com_id= $(this).parents(".commitlike").prev(".com_id").val();
-        console.log(com_id);
-        var span3 = $(this).next("span");
-        console.log("haha");
-        $.ajax({
-            url:"/com_like",
-            type:"get",
-            data:"com_id="+com_id,
-            dataType:"json",
-            success:function (data) {
-                span3.html(data.raise);
-            }
-        });
+        if (user_active == "0") {
+            alert("登陆之后才能点赞哦！");
+        } else {
+            var com_id = $(this).parents(".commitlike").prev(".com_id").val();
+            console.log(com_id);
+            var span3 = $(this).next("span");
+            console.log("haha");
+            $.ajax({
+                url: "/com_like",
+                type: "get",
+                data: "com_id=" + com_id,
+                dataType: "json",
+                success: function (data) {
+                    span3.html(data.raise);
+                }
+            });
+        }
     });
-
 
 
     //评论踩
     $(".com_unlike img").click(function () {
-        var com_id= $(this).parents(".commitlike").prev(".com_id").val();
-        console.log(com_id);
-        var span4 = $(this).next("span");
-        console.log("haha");
+        if (user_active == "0") {
+            alert("登陆之后才能踩哦！");
+        } else {
+            var com_id = $(this).parents(".commitlike").prev(".com_id").val();
+            console.log(com_id);
+            var span4 = $(this).next("span");
+            console.log("haha");
+            $.ajax({
+                url: "/com_unlike",
+                type: "get",
+                data: "com_id=" + com_id,
+                dataType: "json",
+                success: function (data) {
+                    span4.html(data.down);
+                }
+            });
+        }
+    });
+    $(".addbook img").click(function () {
+        if (user_active == "0") {
+            alert("登陆之后才收藏哦！");
+        } else {
+            var note_id = $(this).parents(".contentBottom").prev(".note_id").val();
+            console.log(note_id);
+            console.log("haha");
+            $.ajax({
+                url: "/addbook",
+                type: "get",
+                data: "note_id=" + note_id,
+                dataType: "json",
+                success: function (data) {
+                    if (data.num == 1) {
+                        alert("收藏成功，你可以前往个人中心查看");
+                    } else if (data.num == 2) {
+                        alert("你已经收藏过该帖子了，请前往个人中心查看")
+                    } else {
+                        alert("出错了，请稍后重试");
+                    }
+                }
+            });
+        }
+    });
+
+    //指定页数跳转
+    $("#choosePage").click(function () {
+        var lastPage = Number($("#lastPage").text());
+        console.log(lastPage);
+        var choosepPage = $("#change").children("input").val()
+        if (choosepPage > 0 && choosepPage <= lastPage) {
+            window.location.href = "/?choosePage=" + choosepPage
+        } else {
+            alert("不在页数范围之内呢")
+        }
+    });
+
+    //页面指定关注
+    $(".becomeFan").click(function () {
+        var star_id = $(this).next("input").val();
+        var oper = $(this);
+        console.log(star_id);
         $.ajax({
-            url:"/com_unlike",
-            type:"get",
-            data:"com_id="+com_id,
-            dataType:"json",
-            success:function (data) {
-                span4.html(data.down);
+            url: "/becomeFan",
+            type: "get",
+            data: "star_id=" + star_id,
+            dataType: "json",
+            success: function (data) {
+                if (data.num == 1) {
+                    oper.html("已关注");
+                } else if (data.num == 2) {
+                    alert("你已经关注了该用户!")
+                } else {
+                    alert("关注失败！请稍后重试");
+                }
             }
         });
     });

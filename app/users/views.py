@@ -2,6 +2,7 @@
 处理与用户相关的路由和视图
 """
 import datetime
+import json
 import os
 
 from flask import request, render_template, redirect, session, make_response
@@ -115,3 +116,23 @@ def logout_views():
         del session["id"]
         del session["name"]
     return redirect(url)
+
+
+@users.route("/becomeFan")
+def becomeFan_views():
+    if "id" in session and "name" in session:
+        id = session["id"]
+        star_id = request.args["star_id"]
+        conn = User_attention.query.filter_by(user_fan_id=id, user_star_id=star_id).first()
+        if conn:
+            res = {"num": 2}
+        else:
+            user_attention = User_attention()
+            user_attention.user_fan_id = id
+            user_attention.user_star_id = star_id
+            db.session.add(user_attention)
+            res = {"num": 1}
+    else:
+        res = {"num": 0}
+    jsonStr = json.dumps(res)
+    return jsonStr

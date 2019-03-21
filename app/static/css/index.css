@@ -177,6 +177,7 @@ a:hover{
 .contentCenter{
 	height:360px;
 	overflow:hidden;
+    margin-bottom:20px;
 }
 .contentCenter img{
 	width:630px;
@@ -352,6 +353,7 @@ a:hover{
 	font-size:14px;
 	color:black;
 	margin-bottom:10px;
+    margin-left:10px;
 }
 #friendsInfo #changeInfo{
 	text-align:right;
@@ -529,7 +531,7 @@ a:hover{
 }
 #page>div{
 	overflow:hidden;
-	width:440px;
+	width:500px;
 	margin:0 auto;
 }
 #page .num{
@@ -546,20 +548,21 @@ a:hover{
 }
 #change{
 	float:left;
-	width:120px;
+	width:180px;
 	font-size:14px;
 	color:black;
 }
 #page div>a{
 	color:orange;
+    cursor: pointer;
 }
 #change a:hover{
 	color:red;
 }
 #page input{
-	width:32px;
-	height:32px;
-	line-height:32px;
+	width:20px;
+	height:20px;
+	line-height:20px;
 	text-align:center;
 	display:inline-block;
 }
