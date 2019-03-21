@@ -6,9 +6,12 @@
   <meta name="Author" content="">
   <meta name="Keywords" content="">
   <meta name="Description" content="">
-  <title>注册</title>
+  <title>注册</title> 
   <link rel="shortcut icon" href="../static/images/login_dog.ico" type="image/x-icon">
   <link rel="stylesheet" href="../static/css/register.css" type="text/css">
+  <script src="/static/js/jquery-1.11.3.js"></script>
+  <script src="/static/js/common.js"></script>
+  <script src="/static/js/register.js"></script>
  </head>
 <body>
 <!--1.标题栏-->
@@ -37,32 +40,34 @@
 	<div id="register_left">
 		<div>
 			<h1>欢迎注册开兴小店</h1>
-			<form action="/register" method="post">
+			<form action="/register" method="post" enctype="multipart/form-data">
 				<p>
-					<input type="text" name="uname" class="registerInput" placeholder="用户名">
+                    <input type="text" name="uname" class="registerInput" placeholder="用户名"> 
+                    <span>格式不正确</span>
 				</p>
 				<p>
-					<input type="text" name="phone_num" class="registerInput" placeholder="请输入手机号">
-					<span>手机号已注册</span>
-				</p>
+					<input type="text" id="register_phone"name="phone_num" class="registerInput" placeholder="请输入手机号">
+					<span id="phone_tip" >格式不正确</span>
+				</p> 
 				<p id="check">
-					<input type="text" name="checkKey" placeholder="请输入验证码">
+					<input type="text" name="checkKey" placeholder="请输入验证码"><span>验证码不正确</span>
 					<button>获取验证码</button>
-					<span>倒计时</span>
 				</p>
 				<p>
-					<input type="text" name="email" class="registerInput" placeholder="请输入邮箱">
+                    <input type="text" name="email" class="registerInput" placeholder="请输入邮箱">
+                    <span>邮箱格式不正确</span>
 				</p>
 				<p id="gender">
-					<input type="radio" name="gender" value="0" id="man"><label for="man">男</label>
+					<input type="radio" name="gender" value="0" id="man" checked><label for="man">男</label>
 					<input type="radio" name="gender" value="1" id="woman"><label for="woman">女</label>
 				</p>
 				<p>
-					<input type="password" name="upwd" class="registerInput" placeholder="密码：6~18位">
+                    <input type="password" name="upwd" class="registerInput"  placeholder="密码：6~18位">
+                    <span>密码不符合长度</span>
 				</p>
 				<p>
-					<input type="password" name="upwd" class="registerInput" placeholder="确认密码：6~18位">
-					<span>两次密码一致</span>
+					<input type="password" name="upwd2" class="registerInput" placeholder="确认密码：6~18位">
+					<span>两次密码不一致</span>
 				</p>
                 <p>
                     上传头像:<input type="file" name="headImg">

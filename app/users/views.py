@@ -52,7 +52,7 @@ def login_views():
             session['id'] = user.id
             session['name'] = user.name
             # 2.从cookies中获取源地址(从哪里来回哪里去)
-            url = request.cookies.get('url')
+            url = request.cookies.get('url', '/')
             resp = make_response(redirect(url))
             if isActive:
                 resp.set_cookie("id", str(user.id))
@@ -65,39 +65,46 @@ def login_views():
 @users.route('/register', methods=["GET", "POST"])
 def register_views():
     if request.method == "GET":
-        return render_template("register.html")
+        url = request.headers.get('Referer', '/')
+        resp = make_response(render_template("register.html"))
+        resp.set_cookie("url", url)
+        return resp
     else:
-        # 接受数据
-        uname = request.form["uname"]
-        phone_num = request.form["phone_num"]
-        email = request.form["email"]
-        gender = request.form["gender"]
-        upwd = request.form["upwd"]
-
-        if 'headImg' in request.files:
-            # 1.获取文件
-            f = request.files['headImg']
-            # 2.构建保存路劲
-            ftime = datetime.datetime.now().strftime("%Y%m%d%H%M%S%f")
-            ext = f.filename.split('.')[-1]
-            filename = ftime + '.' + ext
-            basedir = os.path.dirname(__file__)
-            upload_path = os.path.join(basedir, "static/headimg/", filename)
-            path = "/static/headimg/" + filename
-            # 3.保存文件到相应目录处
-            f.save(upload_path)
-        else:
-            path = "/static/headimg/head.gif"
         user = Users()
-        user.name = uname
-        user.phone = phone_num
-        user.email = email
-        user.gender = gender
-        user.password = upload_path
+        user.name = request.form['uname']
+        user.phone = request.form['phone_num']
+        user.email = request.form['email']
+        user.gender = request.form['gender']
+        user.password = request.form['upwd']
+        path = "/static/images/headimg/head.gif"
+        if "headImg" in request.files:
+            f = request.files['headImg']
+            ftime = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
+            fname = ftime + '.' + f.filename.split('.')[-1]
+            basedir = os.path.dirname(__file__)
+            upload_path = os.path.join(basedir, '../static/images/headimg', fname)
+            f.save(upload_path)
+            path = "/static/images/headimg/" + fname
         user.head_path = path
+
         db.session.add(user)
-        url_referer = request.headers.get('Referer')
-        return redirect(url_referer)
+        db.session.commit()
+        # user = Users.query.filter_by(phone=user.phone).first()
+        session['id'] = user.id
+        session['name'] = user.name
+        url = request.cookies.get('url', '/')
+        return redirect(url)
+
+
+@users.route('/register_phone')
+def register_phone_views():
+    phone = request.args['phone_num']
+    reg = Users.query.filter_by(phone=phone).first()
+    print(reg)
+    if reg:
+        return '1'  # 手机号已存在
+    else:
+        return '0'  # 手机号不存在
 
 
 # 处理登出

@@ -88,8 +88,9 @@ a:hover{
 }
 #timeNav a{
 	display:inline-block;
-	width:100px;
+	width:360px;
 	text-align:center;
+    font-weight: bold;
 	color:black;
 }
 #timeNav a:hover{
@@ -268,6 +269,7 @@ a:hover{
 /*评论历史记录*/
 .commitHistory{
 	overflow:hidden;
+    margin-bottom:5px;
 }
 .commitHistory .historyContent{
 	float:left;

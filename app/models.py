@@ -81,3 +81,14 @@ class Note_comment(db.Model):
     note_id = db.Column(db.Integer, db.ForeignKey("notes.id"), nullable=False)
     # 与users建立多对一关系
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+
+    def to_dict(self):
+        dict={
+            "head_path":self.user.head_path,
+            "name":self.user.name,
+            "comment_content":self.content,
+            "date":self.date,
+            "raise":self.comment_raise,
+            "down":self.down
+        }
+        return dict
