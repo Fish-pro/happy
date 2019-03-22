@@ -20,8 +20,7 @@ $(function () {
             var text = $(this).prev(".talkContent").val();
             console.log(note_id);
             console.log(text);
-            var commitHistory = $(this).parents(".commitTalk").next(".commitHistory");
-            var commit = $(this).parents(".commit");
+            var commitTalk = $(this).parents(".commitTalk");
             $.ajax({
                 url: "/comment",
                 data: "note_id=" + note_id + "&" + "text=" + text,
@@ -39,7 +38,7 @@ $(function () {
                         html += data[i].date + ")</p></div><div class='commitlike'><ul><li><img src='../static/images/like.jpg'>";
                         html += data[i].raise + "</li><li><img src='../static/images/unlike.png'>";
                         html += data[i].down + "</li></ul></div></div>";
-                        commit.append($(html));
+                        commitTalk.after($(html));
                     }
                 }
             });

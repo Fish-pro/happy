@@ -8,9 +8,14 @@
     <meta name="Description" content="">
     <title>好友动态</title>
     <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/index.css" type="text/css">
     <link rel="stylesheet" href="../static/css/friends.css" type="text/css">
-	<script src="../static/js/jquery-1.11.3.js"></script>
-	<script src="../static/js/friends.js"></script>
+    <script src="../static/js/jquery-1.11.3.js"></script>
+	<script src="../static/js/index.js"></script>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
 </head>
 <body>
 <!--1.标题栏-->
@@ -22,15 +27,20 @@
         <!--1.1.2左侧导航栏-->
         <div id="leftNav">
             <a href="/">最新帖子</a>
-			<a href="/list">排行榜</a>
+			<a href="/list?type=1">排行榜</a>
 			<a href="/class">帖子分类</a>
 			<a href="/friends">好友动态</a>
 			<a href="/myspace">个人中心</a>
         </div>
         <!--1.1.3登录/注册-->
         <div id="rightNav">
-            <a href="/login">登录</a>
-            <a href="/register">注册</a>
+            {%if not params.user%}
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            {%else%}
+                <a href="#">欢迎{{params.user.name}}</a>
+                <a href="/logout">退出</a>
+            {%endif%}
         </div>
     </div>
 </div>
@@ -44,44 +54,67 @@
             <a href="#">我的粉丝</a>
         </div>
         <!--2.1.3显示内容-->
-        <div class="content">
+        {%for note in params.notes%}
+            <div class="content">
             <!--用户信息和标题-->
             <div class="contentTop">
                 <div class="headImg">
-                    <img src="../static/images/head.gif">
+                    <img src="{{note.user.head_path}}">
                 </div>
                 <div class="title_user">
                     <p class="username">
-                        <a href="#">username</a>
+                        <a href="#">{{note.user.name}}</a>
                     </p>
                     <p class="title">
-                        <a href="#" class="titleContent">titlehellohellohellohellohellohe</a>
+                        <a href="#" class="titleContent">{{note.content.title}}</a>
                     </p>
                 </div>
-                <span>2019-12-13 13:45:22</span>
+                <span>{{note.create_date}}</span>
             </div>
             <!--帖子内容-->
             <div class="contentCenter">
-                <p>帖子内容*********************************************************************************
+                {%if note.content.type==1%}
+                <p>
+                    {{note.content.content}}
                 </p>
+                {%elif note.content.type==2%}
+                <div class="contentImg">
+                    <img src="{{note.content.content}}">
+                </div>
+                {%elif note.content.type==3%}
+                <div class="contentImg">
+                    <img src="{{note.content.content}}">
+                </div>
+                {%elif note.content.type==4%}
+                <div class="contentImg">
+                    <video id="example_video_1"
+                       class="video-js vjs-default-skin"
+                       preload="none"
+                       width="630px"
+                       height="320px"
+                       poster="">
+                    <source src="{{note.content.content}}" type="video/mp4">
+                    </video>
+                </div>
+                {%endif%}
             </div>
             <!--点赞踩评论分享-->
+            <input type="hidden" class="note_id" value="{{note.id}}">
             <div class="contentBottom">
 				<ul>
                     <li class="like">
-						<img src="../static/images/like.jpg">300
+                        <img src="../static/images/like.jpg">
+                        <span>{{note.note_raise}}</span>
                     </li>
                     <li class="unlike">
-						<img src="../static/images/unlike.png">500
+						<img src="../static/images/unlike.png">
+                        <span>{{note.down}}</span>
                     </li>
                     <li class="fav talk">
 						<img src="../static/images/talk.jpg">
                     </li>
 					<li class="fav addbook">
 						<img src="../static/images/fav.png">
-                    </li>
-                    <li class="fav share">
-						<img src="../static/images/share.jpg">
                     </li>
                 </ul>
                 <a>展开>></a>
@@ -91,144 +124,92 @@
                 <div class="commitTalk">
                     <p>
                     <div class="head0">
-                        <img src="../static/images/head.gif">
+                        {%if params.user%}
+                        <img src="{{params.user.head_path}}">
+                        {%else%}
+                        <img src="/static/images/headimg/head.gif">
+                        {%endif%}
                     </div>
-                    <textarea name="talkContent" placeholder="对作者说点什么"></textarea>
-                    <a href="#">提交评论</a>
+                    <textarea name="talkContent" class="talkContent" placeholder="对作者说点什么"></textarea>
+                    <a class="submit_comment">提交评论</a>
                     </p>
                 </div>
+                {%for com in note.comments[::-1][0:3]%}
                 <div class="commitHistory">
                     <div class="head1">
-                        <img src="../static/images/head.gif">
+                        <img src="{{com.user.head_path}}">
                     </div>
                     <div class="historyContent">
                         <p>
-                            <b>username:</b>talkabout(time)
+                            <b>{{com.user.name}}说：</b>{{com.content}}({{com.date.strftime("%Y-%m-%d")}})
                         </p>
                     </div>
+                    <input type="hidden" class="com_id" value="{{com.id}}">
                     <div class="commitlike">
                         <ul>
-                            <li>
-                                <img src="../static/images/like.jpg">20
+                            <li class="com_like">
+                                <img src="../static/images/like.jpg">
+                                <span>{{com.comment_raise}}</span>
                             </li>
-                            <li>
-                                <img src="../static/images/unlike.png">30
+                            <li class="com_unlike">
+                                <img src="../static/images/unlike.png">
+                                <span>{{com.down}}</span>
                             </li>
                         </ul>
                     </div>
                 </div>
+                {%endfor%}
             </div>
         </div>
-        <div class="content">
-            <!--用户信息和标题-->
-            <div class="contentTop">
-                <div class="headImg">
-                    <img src="../static/images/head.gif">
-                </div>
-                <div class="title_user">
-                    <p class="username">
-                        <a href="#">username</a>
-                    </p>
-                    <p class="title">
-                        <a href="#" class="titleContent">titlehellohellohellohellohellohe</a>
-                    </p>
-                </div>
-                <span>2019-12-13 13:45:22</span>
-            </div>
-            <!--帖子内容-->
-            <div class="contentCenter">
-                <p>帖子内容*********************************************************************************
-                </p>
-            </div>
-            <!--点赞踩评论分享-->
-            <div class="contentBottom">
-				<ul>
-                    <li class="like">
-						<img src="../static/images/like.jpg">300
-                    </li>
-                    <li class="unlike">
-						<img src="../static/images/unlike.png">500
-                    </li>
-                    <li class="fav talk">
-						<img src="../static/images/talk.jpg">
-                    </li>
-					<li class="fav addbook">
-						<img src="../static/images/fav.png">
-                    </li>
-                    <li class="fav share">
-						<img src="../static/images/share.jpg">
-                    </li>
-                </ul>
-                <a>展开>></a>
-            </div>
-            <!--评论沙发-->
-            <div class="commit">
-                <div class="commitTalk">
-                    <p>
-                    <div class="head0">
-                        <img src="../static/images/head.gif">
-                    </div>
-                    <textarea name="talkContent" placeholder="对作者说点什么"></textarea>
-                    <a href="#">提交评论</a>
-                    </p>
-                </div>
-                <div class="commitHistory">
-                    <div class="head1">
-                        <img src="../static/images/head.gif">
-                    </div>
-                    <div class="historyContent">
-                        <p>
-                            <b>username:</b>talkabout(time)
-                        </p>
-                    </div>
-                    <div class="commitlike">
-                        <ul>
-                            <li>
-                                <img src="../static/images/like.jpg">20
-                            </li>
-                            <li>
-                                <img src="../static/images/unlike.png">30
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {%endfor%}
         <!--分页栏-->
         <div id="page">
             <div>
-                <a class="num" href="#">首页</a>
-                <a class="num" href="#">上一页</a>
-                <a class="num" href="#">下一页</a>
-                <a class="num" href="#">尾页</a>
+                <a class="num" href="/?page=1">首页</a>
+                <a class="num" href="/?page={{ params.prePage }}">上一页</a>
+                <a class="num" href="/?page={{ params.nextPage }}">下一页</a>
+                <a class="num" href="/?page={{ params.lastPage }}">尾页</a>
                 <div id="change">
-                    <a>跳转</a>至 <input type="text" name="page" value='1'>
+                    <a id="choosePage">跳转</a>至
+                    <input type="text" name="page" value='{{params.page}}'>
+                    共<b id="lastPage">{{params.lastPage}}</b>页
                 </div>
             </div>
         </div>
     </div>
     <!--2.3右边主体内容-->
-    <div id="rightMain">
+  <div id="rightMain">
         <!--2.3.1发帖-->
-		<div id="userInfo">
+        {%if params.user%}
+		    <div id="userInfo">
 			<div id="headBg">
 				<img src="../static/images/class.jpg">
 				<div id="headPhoto">
-					<img src="../static/images/head.gif">
+					<img src="{{ params.user.head_path }}">
 				</div>
 			</div>
 			<div id="friendsInfo">
-				<h3>用户昵称</h3>
-				<p>性别：男</p>
-				<p>手机：18581589937</p>
-				<p>邮箱：12345678911@qq.com</p>
+				<h3>{{ params.user.name }}</h3>
+				<p>性别：
+                    {% if params.user.gender==1 %}
+                        男
+                    {% else %}
+                        女
+                    {% endif %}
+                </p>
+				<p>手机：{{ params.user.phone }}</p>
+				<p>邮箱：{{ params.user.email }}</p>
 				<p id="changeInfo">修改个人资料</p>
 				<div>
 					<table>
 						<tr>
-							<td>9999</td>
-							<td>9999</td>
-							<td class="tdend">9999</td>
+							<td>
+                                {{params.fans.count()}}
+                            </td>
+							<td>
+                                {{params.idos.count()}}
+                            </td>
+							<td class="tdend">{{params.user.notes.count()}}</td>
 						</tr>
 						<tr>
 							<td>粉丝</td>
@@ -239,6 +220,7 @@
 				</div>
 			</div>
 		</div>
+        {%endif%}
         <div id="addBlog">
 			<div>
 				<img src="../static/images/pen.png">
@@ -256,90 +238,69 @@
         <!--2.3.2用户排行榜-->
         <div id="addList">
             <p>发帖排行榜</p>
+            {%for u in params.users%}
             <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
+                <div class="head"><img src="{{u.head_path}}"></div>
+                <a class="username"><b>{{u.name}}：</b>{{u.notes.count()}}条帖子</a>
+                <a class="becomeFan">
+                    {%if u.id in params.l2%}
+                    已关注
+                    {%else%}
+                    +关注
+                    {%endif%}
+                </a>
+                <input type="hidden" value="{{u.id}}">
             </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
+            {%endfor%}
         </div>
         <!--2.3.3精彩段子-->
         <div class="niceWord">
             <p>精彩段子</p>
             <ol>
-                <li>段子titlewefasdfaef</li>
-                <li>段子titlefaefaewfae</li>
-                <li>段子titlefawefaf</li>
-                <li>段子titleawefawfe</li>
+                {%for nc in params.words%}
+                <li>
+                    <a href="/info?note_id={{nc.note_id}}">
+                        {{nc.title}}
+                    </a>
+                </li>
+                {%endfor%}
             </ol>
         </div>
         <!--2.3.4精彩图片-->
         <div class="nicePhoto">
             <p>精彩图片</p>
+            {%for p in params.pictures%}
             <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
+                <a href="/info?note_id={{p.note_id}}">
+                    <img src="{{p.content}}">
+                    <p>{{p.title}}</p>
+                </a>
             </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
+            {%endfor%}
         </div>
         <!--2.3.5精彩动图-->
         <div class="nicePhoto">
             <p>精彩动图</p>
+            {%for g in params.gifs%}
             <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
+                <a href="/info?note_id={{g.note_id}}">
+                    <img src="{{g.content}}">
+                    <p>{{g.title}}</p>
+                </a>
             </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片titlesddfjsdjkfskdjgkdsgj</p>
-            </div>
+            {%endfor%}
         </div>
         <!--2.3.6精彩视频-->
         <div class="niceWord">
             <p>精彩视频</p>
             <ol>
-                <li>视频title</li>
-                <li>视频title</li>
-                <li>视频title</li>
-                <li>视频title</li>
+                {%for v in params.videos%}
+                <li>
+                    <a href="/info?note_id={{v.note_id}}">
+                        {{v.title}}
+                    </a>
+                </li>
+                {%endfor%}
             </ol>
         </div>
     </div>

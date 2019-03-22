@@ -9,6 +9,10 @@
     <title>分类</title>
     <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/class.css" type="text/css">
+	<script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
 </head>
 <body>
 <!--1.标题栏-->
@@ -20,15 +24,20 @@
         <!--1.1.2左侧导航栏-->
         <div id="leftNav">
             <a href="/">最新帖子</a>
-			<a href="/list">排行榜</a>
+			<a href="/list?type=1">排行榜</a>
 			<a href="/class">帖子分类</a>
 			<a href="/friends">好友动态</a>
 			<a href="/myspace">个人中心</a>
         </div>
         <!--1.1.3登录/注册-->
         <div id="rightNav">
-            <a href="/login">登录</a>
-            <a href="/register">注册</a>
+            {%if not params.user%}
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            {%else%}
+                <a href="#">欢迎{{params.user.name}}</a>
+                <a href="/logout">退出</a>
+            {%endif%}
         </div>
     </div>
 </div>
@@ -37,56 +46,80 @@
 	<table>
 		<tr>
 			<td>
+				<a href="/search?key=搞笑">
 				<img src="../static/images/class.jpg">
 				<span>搞笑</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=男女">
 				<img src="../static/images/class1.jpg">
 				<span>男女</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=职场">
 				<img src="../static/images/class2.jpg">
 				<span>职场</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=校园">
 				<img src="../static/images/class3.jpg">
 				<span>校园</span>
+				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
+				<a href="/search?key=大妈">
 				<img src="../static/images/class4.jpg">
 				<span>大妈</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=妹子">
 				<img src="../static/images/class5.jpg">
 				<span>妹子</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=搞怪">
 				<img src="../static/images/class6.jpg">
 				<span>搞怪</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=逗逼">
 				<img src="../static/images/class7.jpg">
 				<span>逗逼</span>
+				</a>
 			</td>
 		</tr>
 		<tr>
 			<td>
+				<a href="/search?key=整蛊">
 				<img src="../static/images/class8.jpg">
 				<span>整蛊</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=实验">
 				<img src="../static/images/class9.jpg">
 				<span>实验</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=热点">
 				<img src="../static/images/class10.jpg">
 				<span>热点</span>
+				</a>
 			</td>
 			<td>
+				<a href="/search?key=考试">
 				<img src="../static/images/class11.jpg">
 				<span>考试</span>
+				</a>
 			</td>
 		</tr>
 	</table>

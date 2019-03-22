@@ -10,6 +10,12 @@
     <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/write_picture.css" type="text/css">
     <link rel="stylesheet" href="../static/css/add_gif.css" type="text/css">
+    <script src="../static/js/jquery-1.11.3.js"></script>
+	<script src="../static/js/index.js"></script>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
 </head>
 <body>
 <!--1.标题栏-->
@@ -28,8 +34,13 @@
         </div>
         <!--1.1.3登录/注册-->
         <div id="rightNav">
-            <a href="/login">登录</a>
-            <a href="/register">注册</a>
+            {%if not params.user%}
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            {%else%}
+                <a href="#">欢迎{{params.user.name}}</a>
+                <a href="/logout">退出</a>
+            {%endif%}
         </div>
     </div>
 </div>
@@ -45,18 +56,9 @@
             <a href="/add_video">发视频</a>
         </div>
         <!--2.1.2永久悬浮导航栏-->
-        <div id="mainNav">
-            <ul>
-                <li>首页</li>
-                <li>段子</li>
-                <li>图片</li>
-                <li>动图</li>
-                <li>视频</li>
-            </ul>
-        </div>
         <!--2.1.3显示内容-->
 		<div id="witeContent">
-			<form action="" method="post" enctype="multipart/form-data">
+			<form action="/add_gif" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="uid" value="{{ params.user.id }}">
                 <input type="hidden" name="type" value="3">
 				<p>
@@ -72,7 +74,7 @@
 		</div>
     </div>
     <!--2.3右边主体内容-->
-    <div id="rightMain">
+   <div id="rightMain">
         <!--2.3.1发帖-->
         {%if params.user%}
 		    <div id="userInfo">
@@ -97,9 +99,13 @@
 				<div>
 					<table>
 						<tr>
-							<td>9999</td>
-							<td>9999</td>
-							<td class="tdend">9999</td>
+							<td>
+                                {{params.fans.count()}}
+                            </td>
+							<td>
+                                {{params.idos.count()}}
+                            </td>
+							<td class="tdend">{{params.user.notes.count()}}</td>
 						</tr>
 						<tr>
 							<td>粉丝</td>
@@ -114,104 +120,83 @@
         <div id="addBlog">
 			<div>
 				<img src="../static/images/pen.png">
-				<a href="#">发段子</a>
+				<a href="/add_word">发段子</a>
 				<img src="../static/images/picture.png">
-				<a href="#">发图片</a>
+				<a href="add_picture">发图片</a>
 			</div>
 			<div>
 				<img src="../static/images/map.png">
-				<a href="#">发动图</a>
+				<a href="add_gif">发动图</a>
 				<img src="../static/images/video.png">
-				<a href="#">发视频</a>
+				<a href="add_video">发视频</a>
 			</div>
         </div>
         <!--2.3.2用户排行榜-->
         <div id="addList">
             <p>发帖排行榜</p>
+            {%for u in params.users%}
             <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
+                <div class="head"><img src="{{u.head_path}}"></div>
+                <a class="username"><b>{{u.name}}：</b>{{u.notes.count()}}条帖子</a>
+                <a class="becomeFan">
+                    {%if u.id in params.l2%}
+                    已关注
+                    {%else%}
+                    +关注
+                    {%endif%}
+                </a>
+                <input type="hidden" value="{{u.id}}">
             </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">+关注</span>
-            </div>
+            {%endfor%}
         </div>
         <!--2.3.3精彩段子-->
         <div class="niceWord">
             <p>精彩段子</p>
             <ol>
-                <li>段子titlewefasdfaef</li>
-                <li>段子titlefaefaewfae</li>
-                <li>段子titlefawefaf</li>
-                <li>段子titleawefawfe</li>
+                {%for nc in params.words%}
+                <li>
+                    <a href="/info?note_id={{nc.note_id}}">
+                        {{nc.title}}
+                    </a>
+                </li>
+                {%endfor%}
             </ol>
         </div>
         <!--2.3.4精彩图片-->
         <div class="nicePhoto">
             <p>精彩图片</p>
+            {%for p in params.pictures%}
             <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
+                <a href="/info?note_id={{p.note_id}}">
+                    <img src="{{p.content}}">
+                    <p>{{p.title}}</p>
+                </a>
             </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
+            {%endfor%}
         </div>
         <!--2.3.5精彩动图-->
         <div class="nicePhoto">
             <p>精彩动图</p>
+            {%for g in params.gifs%}
             <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
+                <a href="/info?note_id={{g.note_id}}">
+                    <img src="{{g.content}}">
+                    <p>{{g.title}}</p>
+                </a>
             </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片title</p>
-            </div>
-            <div class="nicePh">
-                <img src="../static/images/book.jpg">
-                <p>图片titlesddfjsdjkfskdjgkdsgj</p>
-            </div>
+            {%endfor%}
         </div>
         <!--2.3.6精彩视频-->
         <div class="niceWord">
             <p>精彩视频</p>
             <ol>
-                <li>视频title</li>
-                <li>视频title</li>
-                <li>视频title</li>
-                <li>视频title</li>
+                {%for v in params.videos%}
+                <li>
+                    <a href="/info?note_id={{v.note_id}}">
+                        {{v.title}}
+                    </a>
+                </li>
+                {%endfor%}
             </ol>
         </div>
     </div>
@@ -237,13 +222,14 @@
 <!--悬浮框-->
 <div id="adj">
     <div id="qq">
-        <img src="../static/images/qq.png">
+        <img src="../static/images/qq.png" title="2890353332">
     </div>
     <div id="wechat">
-        <img src="../static/images/wechat.png">
+        <img src="../static/images/wechat.png" title="18581589937">
     </div>
 </div>
 </body>
 </html>
+
 
 

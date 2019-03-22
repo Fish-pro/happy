@@ -88,9 +88,10 @@ a:hover{
 }
 #timeNav a{
 	display:inline-block;
-	width:100px;
+	width:360px;
 	text-align:center;
 	color:black;
+	font-size:20px;
 }
 #timeNav a:hover{
 	color:red;
@@ -178,20 +179,27 @@ a:hover{
 	font-size:14px;
 	color:black;
 }
+.contentCenter{
+	height:auto;
+}
 /* 按钮切换 */
-#btnChangeblog button{
+#btnChangeblog a{
+	display:inline-block;
 	width:90px;
 	height:40px;
+	line-height:40px;
+	text-align:center;
 	background:orange;
 	color:white;
 	font-size:18px;
-	margin:20px 40px;
-	border:2px solid orange;
+	margin:0 40px;
+	cursor:pointer;
 }
 /*点赞分享栏*/
 .contentBottom{
 	overflow:hidden;
 	border-bottom:1px solid black;
+	margin-top:20px;
 	margin-bottom:20px;
 }
 .contentBottom img{
@@ -298,7 +306,9 @@ a:hover{
 	width:20px;
 	height:20px;
 }
-
+.commit{
+	display:block;
+}
 /*主体右栏*/
 #rightMain{
 	width:275px;

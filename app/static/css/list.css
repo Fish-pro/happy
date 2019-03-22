@@ -280,6 +280,52 @@ a:hover{
 	height:20px;
 }
 
+/*分页*/
+#page{
+	height:32px;
+	background:#DBDBDB;
+	text-align:center;
+}
+#page>div>a:hover{
+	background:red;
+}
+#page>div{
+	overflow:hidden;
+	width:500px;
+	margin:0 auto;
+}
+#page .num{
+	display:inline-block;
+	width:60px;
+	height:32px;
+	line-height:32px;
+	font-size:16px;
+	color:black;
+	text-align:center;
+	background:orange;
+	margin-right:20px;
+	float:left;
+}
+#change{
+	float:left;
+	width:180px;
+	font-size:14px;
+	color:black;
+}
+#page div>a{
+	color:orange;
+    cursor: pointer;
+}
+#change a:hover{
+	color:red;
+}
+#page input{
+	width:20px;
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	display:inline-block;
+}
 /*主体右栏*/
 #rightMain{
 	width:275px;
@@ -429,65 +475,6 @@ a:hover{
 .nicePhoto>p:hover{
 	font-size:16px;
 	color:red;
-}
-
-/* 分页栏 */
-#page{
-	height:32px;
-	background:#DBDBDB;
-	text-align:center;
-}
-#page>div>a:hover{
-	background:red;
-}
-#page>div{
-	overflow:hidden;
-	width:440px;
-	margin:0 auto;
-}
-#page .num{
-	display:inline-block;
-	width:60px;
-	height:32px;
-	line-height:32px;
-	font-size:16px;
-	color:black;
-	text-align:center;
-	background:orange;
-	margin-right:20px;
-	float:left;
-}
-#change{
-	float:left;
-	width:120px;
-	font-size:14px;
-	color:black;
-}
-#page div>a{
-	color:orange;
-}
-#change a:hover{
-	color:red;
-}
-#page input{
-	width:32px;
-	height:32px;
-	line-height:32px;
-	text-align:center;
-	display:inline-block;
-}
-/* 版权栏 */
-#end{
-	width:100%;
-	height:100px;
-	background:#5F434B;
-	margin-top:0;
-}
-#end>div{
-	width:500px;
-	margin:0 auto;
-	text-align:center;
-	padding-top:30px;
 }
 
 /* 悬浮广告 */

@@ -13,7 +13,6 @@ from . import notes
 from .. import db
 from ..models import *
 
-
 # 定义一个函数用于图片动图，视频文件的存储并返回保存路劲
 def saveFile(f, path):
     # 2.构建保存路劲
@@ -28,15 +27,33 @@ def saveFile(f, path):
     return path
 
 
+def sort_notes(x):
+    return x.notes.count()
+
 # 分享段子
 @notes.route("/add_word", methods=["GET", "POST"])
 def add_word_views():
     # 用session中的phone获得用户对象
     if request.method == "GET":
+        # 读取所有用户信息
+        users = Users.query.all()
+        users = sorted(users, key=sort_notes, reverse=True)[0:6]
+        words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
+        pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
+        gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+        videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
+        # 判断是否有登录用户(id和name)
         if "id" in session and "name" in session:
             id = session['id']
             user = Users.query.filter_by(id=id).first()
-        return render_template("add_word.html", params=locals())
+            fans = db.session.query(User_attention.user_fan_id).filter(User_attention.user_star_id == id)
+            idos = db.session.query(User_attention.user_star_id).filter(User_attention.user_fan_id == id)
+            l2 = []
+            for j in idos.all():
+                l2.append(j[0])
+            return render_template("add_word.html", params=locals())
+        else:
+            return render_template("login.html")
     else:
         # 接受数据
         uid = request.form['uid']
@@ -65,10 +82,25 @@ def add_word_views():
 @notes.route("/add_picture", methods=["GET", "POST"])
 def add_picture_views():
     if request.method == "GET":
+        # 读取所有用户信息
+        users = Users.query.all()
+        users = sorted(users, key=sort_notes, reverse=True)[0:6]
+        words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
+        pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
+        gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+        videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
+        # 判断是否有登录用户(id和name)
         if "id" in session and "name" in session:
             id = session['id']
             user = Users.query.filter_by(id=id).first()
-        return render_template("add_picture.html", params=locals())
+            fans = db.session.query(User_attention.user_fan_id).filter(User_attention.user_star_id == id)
+            idos = db.session.query(User_attention.user_star_id).filter(User_attention.user_fan_id == id)
+            l2 = []
+            for j in idos.all():
+                l2.append(j[0])
+            return render_template("add_picture.html", params=locals())
+        else:
+            return render_template("login.html")
     else:
         uid = request.form['uid']
         type = request.form['type']
@@ -99,10 +131,25 @@ def add_picture_views():
 @notes.route("/add_gif", methods=["GET", "POST"])
 def add_gif_views():
     if request.method == "GET":
+        # 读取所有用户信息
+        users = Users.query.all()
+        users = sorted(users, key=sort_notes, reverse=True)[0:6]
+        words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
+        pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
+        gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+        videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
+        # 判断是否有登录用户(id和name)
         if "id" in session and "name" in session:
             id = session['id']
             user = Users.query.filter_by(id=id).first()
-        return render_template("add_gif.html", params=locals())
+            fans = db.session.query(User_attention.user_fan_id).filter(User_attention.user_star_id == id)
+            idos = db.session.query(User_attention.user_star_id).filter(User_attention.user_fan_id == id)
+            l2 = []
+            for j in idos.all():
+                l2.append(j[0])
+            return render_template("add_gif.html", params=locals())
+        else:
+            return render_template("login.html")
     else:
         uid = request.form['uid']
         type = request.form['type']
@@ -133,10 +180,25 @@ def add_gif_views():
 @notes.route("/add_video", methods=["GET", "POST"])
 def add_video_views():
     if request.method == "GET":
+        # 读取所有用户信息
+        users = Users.query.all()
+        users = sorted(users, key=sort_notes, reverse=True)[0:6]
+        words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
+        pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
+        gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+        videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
+        # 判断是否有登录用户(id和name)
         if "id" in session and "name" in session:
             id = session['id']
             user = Users.query.filter_by(id=id).first()
-        return render_template("add_video.html", params=locals())
+            fans = db.session.query(User_attention.user_fan_id).filter(User_attention.user_star_id == id)
+            idos = db.session.query(User_attention.user_star_id).filter(User_attention.user_fan_id == id)
+            l2 = []
+            for j in idos.all():
+                l2.append(j[0])
+            return render_template("add_video.html", params=locals())
+        else:
+            return render_template("login.html")
     else:
         uid = request.form['uid']
         type = request.form['type']
@@ -191,11 +253,17 @@ def longclass_views():
         choosePage = int(request.args["choosePage"])
         ost = (choosePage - 1) * pageSize
         page = choosePage
-    # notes = db.session.query(Notes).offset(ost).limit(pageSize).all()
-    notes = Notes.query.all()[::-1]
+
+    type = int(request.args['type'])
+    contents = Note_content.query.filter_by(type=type).all()
+    notes = []
+    for con in contents:
+        notes.append(con.note)
+    notes = notes[::-1]
+
     notes = notes[ost:(ost + pageSize)]
     # 根据pageSize计算尾页
-    totalCount = db.session.query(Notes).count()
+    totalCount = Note_content.query.filter_by(type=type).count()
     lastPage = math.ceil(totalCount / pageSize)
     # 计算上一页
     prePage = page - 1
@@ -206,15 +274,7 @@ def longclass_views():
     if page < lastPage:
         nextPage = page + 1
 
-    type = int(request.args['type'])
-    contents = Note_content.query.filter_by(type=type).all()
-    notes = []
-    for con in contents:
-        notes.append(con.note)
-    notes = notes[::-1]
-
-
-    return render_template("index.html", params=locals())
+    return render_template("longclass.html", params=locals())
 
 
 @notes.route("/comment")
