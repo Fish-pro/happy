@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="../static/css/myspace.css" type="text/css">
 	<script src="../static/js/jquery-1.11.3.js"></script>
 	<script src="../static/js/myspace.js"></script>
-    <script src="../static/js/index.js"></script>
     <script>
         window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
         with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
@@ -30,8 +29,8 @@
             <a href="/">最新帖子</a>
 			<a href="/list?type=1">排行榜</a>
 			<a href="/class">帖子分类</a>
-			<a href="/friends">好友动态</a>
-			<a href="/myspace">个人中心</a>
+			<a href="/friends?note_info=关注">好友动态</a>
+			<a href="/myspace?note_info=my">个人中心</a>
         </div>
         <!--1.1.3登录/注册-->
         <div id="rightNav">
@@ -51,11 +50,20 @@
     <div id="leftMain">
         <!--2.1.1分时导航栏-->
         <div id="timeNav">
-            <a href="#">我的帖子</a>
-            <a href="#">我的收藏</a>
+            <a href="/myspace?note_info=my"
+               {% if params.note_info=='my' %}
+                 style="color: red;"
+               {% endif %}
+            >我的帖子</a>
+            <a href="/myspace?note_info=addblog"
+               {% if params.note_info=='addblog' %}
+                 style="color: red;"
+               {% endif %}
+            >我的收藏</a>
         </div>
         <!--2.1.3显示内容-->
         {%for note in params.notes%}
+            {%if note%}
             <div class="content">
             <!--用户信息和标题-->
             <div class="contentTop">
@@ -102,20 +110,20 @@
             <!--点赞踩评论分享-->
             <input type="hidden" class="note_id" value="{{note.id}}">
             <div class="contentBottom">
-				<ul>
+                <ul>
                     <li class="like">
                         <img src="../static/images/like.jpg">
                         <span>{{note.note_raise}}</span>
                     </li>
                     <li class="unlike">
-						<img src="../static/images/unlike.png">
+                        <img src="../static/images/unlike.png">
                         <span>{{note.down}}</span>
                     </li>
                     <li class="fav talk">
-						<img src="../static/images/talk.jpg">
+                        <img src="../static/images/talk.jpg">
                     </li>
-					<li class="fav addbook">
-						<img src="../static/images/fav.png">
+                    <li class="fav addbook">
+                        <img src="../static/images/fav.png">
                     </li>
                 </ul>
                 <a>展开>></a>
@@ -162,17 +170,19 @@
                 {%endfor%}
             </div>
         </div>
+            {%endif%}
         {%endfor%}
         <!--分页栏-->
         <div id="page">
             <div>
-                <a class="num" href="/?page=1">首页</a>
-                <a class="num" href="/?page={{ params.prePage }}">上一页</a>
-                <a class="num" href="/?page={{ params.nextPage }}">下一页</a>
-                <a class="num" href="/?page={{ params.lastPage }}">尾页</a>
+                <a class="num" href="/myspace?note_info={{params.note_info}}&page=1">首页</a>
+                <a class="num" href="/myspace?note_info={{params.note_info}}&page={{ params.prePage }}">上一页</a>
+                <a class="num" href="/myspace?note_info={{params.note_info}}&page={{ params.nextPage }}">下一页</a>
+                <a class="num" href="/myspace?note_info={{params.note_info}}&page={{ params.lastPage }}">尾页</a>
                 <div id="change">
                     <a id="choosePage">跳转</a>至
-                    <input type="text" name="page" value='{{params.page}}'>
+                    <input type="text" id="pageinput1" value='{{params.page}}'>
+                    <input type="hidden" id="pageinput2" value='{{params.note_info}}'>
                     共<b id="lastPage">{{params.lastPage}}</b>页
                 </div>
             </div>
@@ -239,59 +249,27 @@
         <!--2.3.2好友信息-->
         <div class="addList">
             <p>我的关注</p>
+            {%if params.l2%}
+            {% for user in params.l2 %}
             <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
+                <div class="head"><img src="{{user.head_path}}"></div>
+                <span class="username"><b>{{user.name}}：</b>{{user.notes.count()}}条帖子</span>
+                <a class="becomeFan">详细信息</a>
             </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
+            {% endfor %}
+            {%endif%}
         </div>
         <div class="addList">
             <p>我的粉丝</p>
+            {%if params.l1%}
+            {% for user in params.l1 %}
             <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
+                <div class="head"><img src="{{user.head_path}}"></div>
+                <span class="username"><b>{{user.name}}：</b>{{user.notes.count()}}条帖子</span>
+                <a class="becomeFan">详细信息</a>
             </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
-            <div class="list">
-                <div class="head"><img src="../static/images/head.gif"></div>
-                <span class="username"><b>用户名称：</b>333条帖子</span>
-                <span class="becomeFan">详细信息</span>
-            </div>
+            {% endfor %}
+            {%endif%}
         </div>
     </div>
 </div>
