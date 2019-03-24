@@ -10,6 +10,36 @@ from flask import request, render_template, redirect, session, make_response
 from . import users
 from ..models import *
 
+# 手机验证码需要用到下面3个模块
+import http.client
+from urllib.parse import quote
+import random
+import json
+
+
+# 短信验证码接口函数
+def send_sms(phone, code, APIID='C66978111', APIKEY='5698d0d7f9f7eab406e92828c3a373b0'):
+    # 1. 将中文参数转成url码
+    str1 = quote('您的验证码是：', 'utf-8')
+    str2 = quote('。请不要把验证码泄露给其他人。', 'utf-8')
+    content = '&content=' + str1 + str(code) + str2
+    # 2. 将所有参数拼进url
+    params = 'account=' + APIID + '&password=' + APIKEY + '&mobile=' + str(phone) + content + '&format=json'
+    url = 'http://106.ihuyi.com/webservice/sms.php?method=Submit&' + params
+    headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+
+    # 3. 发送请求
+    conn = http.client.HTTPConnection("106.ihuyi.com", port=80, timeout=30)
+    # conn.request("POST", sms_send_uri, params, headers)
+    conn.request("POST", url, headers=headers)
+
+    # 4. 接收短信是否发送, 发送成功response_str.code == '2'
+    response = conn.getresponse()
+    response_str = response.read().decode()
+    response_str = json.loads(response_str)
+    conn.close()
+    return response_str
+
 
 @users.route("/login", methods=["GET", "POST"])
 def login_views():
@@ -60,7 +90,7 @@ def login_views():
                 resp.set_cookie("name", user.name)
             return resp
         else:
-            return render_template("login.html")
+            return "用户或密码不正确，你可以<a href='/login'>重新登录</a>"
 
 
 @users.route('/register', methods=["GET", "POST"])
@@ -97,15 +127,35 @@ def register_views():
         return redirect(url)
 
 
-@users.route('/register_phone')
-def register_phone_views():
+@users.route('/reg_phone')
+def reg_phone_views():
     phone = request.args['phone_num']
     reg = Users.query.filter_by(phone=phone).first()
-    print(reg)
     if reg:
-        return '1'  # 手机号已存在
+        dic = {"num": 1}  # 手机号已存在
     else:
-        return '0'  # 手机号不存在
+        dic = {"num": 0}  # 手机号不存在
+    jsonStr = json.dumps(dic)
+    return jsonStr
+
+
+@users.route("/check_phone")
+def check_phone_views():
+    phone = request.args["phone_num"]
+    key = random.randint(100000, 999999)
+    check_response = send_sms(phone, key)
+    if check_response["code"] == 2:
+        check_response = {
+            "code": 2,
+            "key": key
+        }
+    else:
+        check_response = {
+            "code": 1,
+            "key": key
+        }
+    jsonStr = json.dumps(check_response)
+    return jsonStr
 
 
 # 处理登出

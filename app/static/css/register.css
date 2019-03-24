@@ -101,7 +101,6 @@ a:hover{
 #register_left span{
 	color:red;
 	font-size:15px;
-	display:none;
 }
 #check{
 	display:inline-block;
@@ -113,15 +112,22 @@ a:hover{
 	float:left;
 	margin-right:4px;
 }
-#register_left #check button{
+#register_left #check a{
+	display:inline-block;
 	width:132px;
 	height:32px;
+	line-height:32px;
+	text-align:center;
+	background: #9a9a9a;
 	float:left;
+	color:black;
+	cursor:pointer;
+	border-radius: 5px;
 }
 #check span{
 	height:32px;
 	line-height:32px;
-	margin-left:4px;
+	margin-left:10px;
 }
 #register_left #gender{
 	color:black;
@@ -131,12 +137,13 @@ a:hover{
 	margin-left:20px;
 }
 #btnRegister{
-	width:300px;
+	width:310px;
 	height:32px;
 	background:red;
 	font-size:18px;
 	color:white;
 	border:2px solid red;
+	border-radius: 5px;
 }
 /* 版权栏 */
 #end{

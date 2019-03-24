@@ -1,104 +1,137 @@
-
-// var check1,check2,check3,check4,check5,check6
-//注册字段格式函数
-function login_match(login_element,re){    
-    login_element.blur(function(){
-        var data =  this.value
-        var check
-        // 匹配相应的正则表达式,检查字符串是否合规
-        var reg = re.test(data)
-        if (reg){
-            $(this).next('span').css('display','none')    
-            check=true       
-        }else{
-            $(this).next('span').css('display','inline') 
-            check=false
+function reg_match(element, re) {
+    element.blur(function () {
+        var data = this.value;
+        var check;
+        var reg = re.test(data);
+        if (reg) {
+            $(this).next("span").html("通过验证").css("color", "green")
+            return true
+        } else {
+            $(this).next("span").html("格式不正确").css("color", "red")
+            return false
         }
-        if (login_element.attr('name')=='phone_num' && check){
-            var thisurl = '/register_phone?phone_num='+$(this).val()
+    })
+}
+
+function send_phone() {
+    $('#register_phone').blur(function () {
+        var data = $(this).val();
+        var re = /^\d{11}$/;
+        var reg = re.test(data);
+        if (reg) {
             $.ajax({
-                url:thisurl,
-                type:'get',
-                async:'false',
-                success:function(data){
-                    if (data == '1'){
-                        console.log('1')
-                        $("#phone_tip").html('手机号已被注册') 
-                        $("#phone_tip").css('display','inline')
-                    }else{
-                        $("#phone_tip").css('display','none')
-                        $("#phone_tip").html('格式不正确') 
+                url: "/reg_phone",
+                type: 'get',
+                dataType: "json",
+                data: "phone_num=" + data,
+                async: false,
+                success: function (data) {
+                    if (data.num == 1) {
+                        $("#phone_tip").html('手机号已被注册').css("color", "red")
+                        return false
+                    } else {
+                        $("#phone_tip").html('手机号可用').css("color", 'green')
+                        return true
                     }
                 }
             })
+        } else {
+            $("#phone_tip").html('手机格式不正确').css("color", "red")
+            return false
         }
-        return check
-    })
-}    
- 
+    });
+}
+
+function check_phone_key() {
+    $("#check>input").blur(function () {
+        var key = $(this).val();
+        console.log(key);
+        if (key == check_key) {
+            $("#check-tip").html('验证成功').css("color", 'green');
+            return true
+        } else {
+            $("#check-tip").html('验证码错误').css("color", 'red');
+            return false
+        }
+    });
+}
 
 
-// //检查字段函数
-// function re_check(elem,re){
-//     var data =  elem.value
-//     // 匹配相应的正则表达式,检查字符串是否合规
-//     var reg = re.test(data)
-//     if (reg){
-//         $(elem).next('span').css('display','none')  
-//         return true          
-//     }else{
-//         $(elem).next('span').css('display','inline') 
-//         return false           
-//     }
-// }
+var check_key;//全局变量保存验证码
 
-// function register_check(){
-//     if (
-//         re_check($('#register_left input[name="uname"]'),/^[a-zA-Z\u4e00-\u9fa5_0-9]{3,15}$/) &&
-//         re_check($('#register_left input[name="phone_num"]'),/^\d{11}$/) &&
-//         re_check($('#register_left input[name="checkKey"]'),/^[0-9]{4}$/)&&    
-//         re_check($('#register_left input[name="email"]'),/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)&&
-//         re_check($('#register_left input[name="upwd"]'),/^\w{6,16}$/)&&
-//         $('#register_left input[name="upwd"]').val() == $('#register_left input[name="upwd2"]').val()
-//     ){
-//         console.log(true)
-//         return true
-//     }else{
-//         console.log(false)
-//         return false
-//     }
-// }
-
-
- 
 //网页加载后需要执行的操作:
-$(function(){
+$(function () {
+
     // 注册用户名限制
-    login_match($('#register_left input[name="uname"]'),/^[a-zA-Z\u4e00-\u9fa5_0-9]{3,15}$/)
+    reg_match($('#uname'), /^[a-zA-Z\u4e00-\u9fa5_0-9]{3,15}$/);
 
-    
     // 注册手机限制
-    login_match($('#register_phone'),/^\d{11}$/)
-    // 注册验证码限制:
-    login_match($('#register_left input[name="checkKey"]'),/^[0-9]{4}$/)
+    send_phone();
 
-    // // 注册邮箱限制
-    login_match($('#register_left input[name="email"]'),/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/)
+
+    //点击获取验证码
+    $("#check a").click(function () {
+        var phone_num = $("#register_phone").val();
+        $.ajax({
+            url: "/check_phone",
+            type: 'get',
+            data: "phone_num=" + phone_num,
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.code == 2) {
+                    $("#phone_tip").html("验证码已发送").css("color", 'green');
+                    check_key = data.key
+                    console.log(check_key);
+                } else {
+                    $("#phone_tip").html('请稍后重试').css("color", 'red');
+                }
+            }
+        });
+    });
+
+    //验证码核对
+    check_phone_key();
+
+    // 注册邮箱限制
+    reg_match($('#email'), /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/);
 
     // 注册密码限制
-    login_match($('#register_left input[name="upwd"]'),/^\w{6,16}$/)
+    reg_match($('#upwd'), /^\w{6,16}$/);
 
 
     // 密码重复限制
-    $('#register_left input[name="upwd2"]').blur(function(){
-        var data = $('#register_left input[name="upwd"]').val()
-        if ($(this).val()==data){
-            $(this).next('span').css('display','none')    
-            return true        
-        }else{
-            $(this).next('span').css('display','inline')            
+    $('#upwd2').blur(function () {
+        var data = $('#upwd').val();
+        if ($(this).val() == data) {
+            $(this).next('span').html("两次密码一致").css('color', 'green')
+            return true
+        } else {
+            $(this).next('span').html("两次密码不一致").css('color', 'red')
             return false
         }
-    })  
-    
-})
+    });
+
+
+});
+
+
+function end_check() {
+    var name = $("#uname-tip").html() == "通过验证";
+    var ifcheck = $("#check-tip").html() == "验证成功";
+    var email = $("#email-tip").html() == "通过验证";
+    var upwd = $("#upwd-tip").html() == "通过验证";
+    var ifupwd = $("#upwd2-tip").html() == "两次密码一致";
+    console.log("name"+name);
+    console.log("ifcheck:"+ ifcheck);
+    console.log("email"+ email);
+    console.log("upwd"+ upwd);
+    console.log("ifupwd"+ ifupwd);
+    if (name && ifcheck && email && upwd && ifupwd) {
+        alert("注册成功");
+        return true
+    } else {
+        alert("信息不正确，请重新填写");
+        return false
+    }
+}

@@ -253,7 +253,13 @@
             {% for user in params.l2 %}
             <div class="list">
                 <div class="head"><img src="{{user.head_path}}"></div>
-                <span class="username"><b>{{user.name}}：</b>{{user.notes.count()}}条帖子</span>
+                <span class="username"><b>{{user.name}}：</b>
+                    {%if user.notes%}
+                    {{user.notes.count()}}
+                    {%else%}
+                    0
+                    {%endif%}
+                    条帖子</span>
                 <a class="becomeFan">详细信息</a>
             </div>
             {% endfor %}
@@ -265,7 +271,13 @@
             {% for user in params.l1 %}
             <div class="list">
                 <div class="head"><img src="{{user.head_path}}"></div>
-                <span class="username"><b>{{user.name}}：</b>{{user.notes.count()}}条帖子</span>
+                <span class="username"><b>{{user.name}}：</b>
+                    {%if user.notes%}
+                    {{user.notes.count()}}
+                    {%else%}
+                    0
+                    {%endif%}
+                    条帖子</span>
                 <a class="becomeFan">详细信息</a>
             </div>
             {% endfor %}
