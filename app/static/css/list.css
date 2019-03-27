@@ -156,7 +156,9 @@ a:hover{
 }
 .contentCenter>p{
 	margin:15px 40px;
-	font-size:14px;
+	font-family: "微软雅黑";
+	line-height: 40px;
+	font-size:18px;
 	color:black;
 }
 /*点赞分享栏*/

@@ -1,0 +1,327 @@
+/*清除浏览器的默认样式*/
+body,h1,h2,h3,h4,h5,h6,p,ul,ol{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+body{
+	font:12px "微软雅黑","黑体";
+	color:#9a9a9a;
+	background:#DBDBDB;
+}
+a{
+	text-decoration:none;
+	color:#9a9a9a;
+}
+a:hover{
+	color:#64a131;
+}
+
+/*1.导航栏*/
+/*设置顶部横条container*/
+#container{
+	width:100%;
+	background:#F58171;
+	height:70px;
+}
+/*导航栏*/
+#nav{
+	width:990px;
+	margin:0 auto;
+}
+/*标题和列表栏左浮*/
+#logo{
+	float:left;
+	margin-right:25px;
+}
+#logo img{
+	height:70px;
+}
+#leftNav{
+	float:left;
+}
+/*登录注册右浮*/
+#rightNav{
+	float:right;
+}
+/*列表栏设置*/
+#leftNav a{
+	width:92px;
+	float:left;
+	font:20px "微软雅黑";
+	color:white;
+	margin-right:25px;
+	line-height:70px;
+	text-align:center;
+	cursor:pointer;
+}
+/*登录注册样式*/
+#rightNav>a{
+	font-size:15px;
+	color:white;
+	line-height:70px;
+	margin-right:20px;
+}
+
+/*2.主体内容*/
+#main{
+	width:990px;
+	margin:0 auto;
+	margin-top:25px;
+	margin-bottom:30px;
+	overflow:hidden;
+}
+/*主体内容左边*/
+#leftMain{
+	width:700px;
+	margin-right:15px;
+	float:left;
+	background:white;
+}
+/* 时间导航栏 */
+#timeNav{
+	border-bottom:1px solid black;
+	height:50px;
+	font-size:18px;
+	line-height:50px;
+	background:white;
+}
+#timeNav a{
+	display:inline-block;
+	width:100px;
+	text-align:center;
+	color:black;
+	margin-left:15px;
+}
+#timeNav a:hover{
+	color:red;
+	border-bottom:2px solid red;
+}
+
+/* 内容栏 */
+.content{
+	background:white;
+	margin-top:20px;
+	border-bottom:15px solid #DBDBDB;
+	margin-bottom:0;
+}
+.content .contentTop{
+	overflow:hidden;
+	margin-left:10px;
+    border-bottom: 1px solid black;
+}
+.content .contentTop>div{
+	float:left;
+}
+.content .contentTop .headImg{
+    width:40px;
+	height:40px;
+	border-radius:50%;
+	overflow:hidden;
+	margin-right:10px;
+}
+.content .contentTop img{
+	width:40px;
+	height:40px;
+}
+.content h1{
+    margin-bottom:10px;
+    color:red;
+}
+.contentTop{
+    margin-bottom:10px;
+}
+.content .list_name{
+    color:cyan;
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+    font-weight: bold;
+}
+.content .list_left{
+    float:right;
+    height:30px;
+    line-height: 30px;
+    text-align: center;
+    color:white;
+    border-radius: 10px;
+    background: red;
+    width:70px;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-right: 20px;
+}
+/*主体右栏*/
+#rightMain{
+	width:275px;
+	float:left;
+}
+#rightMain>div{
+	margin-bottom:6px;
+	background:white;
+}
+/* 个人信息 */
+#userInfo #headBg{
+	height:180px;
+	position:relative;
+}
+#userInfo #headBg>img{
+	width:275px;
+	height:150px;
+}
+#headBg #headPhoto{
+	overflow:hidden;
+	width:60px;
+	height:60px;
+	border-radius:50%;
+	position:absolute;
+	bottom:0;
+	left:110px;
+}
+#headBg #headPhoto>img{
+	width:60px;
+	height:60px;
+}
+#friendsInfo>h3{
+	color:red;
+	text-align:center;
+}
+#friendsInfo p{
+	font-size:14px;
+	color:black;
+	margin-bottom:10px;
+}
+#friendsInfo a{
+	text-align:right;
+	margin-right:10px;
+	color:blue;
+	cursor: pointer;
+}
+#friendsInfo a:hover{
+	color:red;
+}
+#friendsInfo table{
+	width:210px;
+	margin:20px auto;
+	text-align:center;
+	font-size:14px;
+	color:black;
+	border-collapse:collapse;
+}
+#friendsInfo>div{
+	border-bottom:1px solid white;
+}
+#friendsInfo td{
+	border-right:1px solid black;
+}
+#friendsInfo .tdend{
+	border-right:0;
+}
+#changeInfo{
+	text-align: right;
+}
+/*发帖*/
+#addBlog>div{
+	height:40px;
+	font-size:0px;
+	overflow:hidden;
+	margin-bottom:10px;
+	margin-left:20px;
+}
+#addBlog img{
+	width:40px;
+	height:40px;
+	float:left;
+}
+#addBlog a{
+	display:inline-block;
+	float:left;
+	width:77.5px;
+	font-size:18px;
+	height:40px;
+	line-height:40px;
+	color:black;
+}
+#addBlog a:hover{
+	color:red;
+}
+/*好友信息*/
+.addList>p{
+	font-size:15px;
+	color:black;
+	height:30px;
+	line-height:30px;
+	border-bottom:1px solid black;
+	margin-bottom:5px;
+}
+.addList>p:hover{
+	font-size:16px;
+	color:red;
+}
+.addList .list{
+	overflow:hidden;
+	margin-bottom:5px;
+}
+.list .head{
+	width:30px;
+	height:30px;
+	overflow:hidden;
+	border-radius:50%;
+	float:left;
+}
+.list .head img{
+	width:30px;
+	height:30px;
+}
+.list .username{
+	float:left;
+	height:30px;
+	line-height:30px;
+	font-size:14px;
+	margin-left:10px;
+}
+.list .username b{
+	color:red;
+}
+.list .becomeFan{
+	float:right;
+	height:30px;
+	line-height:30px;
+	font-size:14px;
+	color:orange;
+	margin-right:10px;
+	cursor:pointer;
+}
+
+
+/* 版权栏 */
+#end{
+	width:100%;
+	height:100px;
+	background:#5F434B;
+	margin-top:0;
+}
+#end>div{
+	width:500px;
+	margin:0 auto;
+	text-align:center;
+	padding-top:30px;
+}
+
+/* 悬浮广告 */
+#qq{
+	margin-bottom:30px;
+}
+#adj{
+	position:fixed;
+	right:30px;
+	bottom:20px;
+}
+#adj img{
+	width:80px;
+	height:80px;
+	opacity:.7;
+}
+#adj img:hover{
+	opacity:1;
+}

@@ -1,5 +1,6 @@
 from . import db
 
+
 # 1.管理员信息表
 class Admins(db.Model):
     __teblename__ = "admins"
@@ -83,12 +84,20 @@ class Note_comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
 
     def to_dict(self):
-        dict={
-            "head_path":self.user.head_path,
-            "name":self.user.name,
-            "comment_content":self.content,
-            "date":self.date,
-            "raise":self.comment_raise,
-            "down":self.down
+        dict = {
+            "head_path": self.user.head_path,
+            "name": self.user.name,
+            "comment_content": self.content,
+            "date": self.date,
+            "raise": self.comment_raise,
+            "down": self.down
         }
         return dict
+
+
+class Chat(db.Model):
+    __tablename__ = "chat"
+    id = db.Column(db.Integer, primary_key=True)
+    send_id = db.Column(db.Integer, nullable=False)
+    recv_id = db.Column(db.Integer, nullable=False)
+    content = db.Column(db.String(300), nullable=False)

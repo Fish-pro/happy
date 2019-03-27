@@ -78,7 +78,7 @@
                 </div>
                 <div class="title_user">
                     <p class="username">
-                        <a href="#">{{note.user.name}}</a>
+                        <a href="/person?user_id={{note.user.id}}">{{note.user.name}}</a>
                     </p>
                     <p class="title">
                         <a href="#" class="titleContent">{{note.content.title}}</a>
@@ -102,13 +102,15 @@
                 </div>
                 {%elif note.content.type==4%}
                 <div class="contentImg">
-                    <video id="example_video_1"
-                       class="video-js vjs-default-skin"
-                       preload="none"
-                       width="630px"
-                       height="320px"
-                       poster="">
-                    <source src="{{note.content.content}}" type="video/mp4">
+                    <video id="my-video"
+                           class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9"
+                           controls preload="auto"
+                           poster=""
+                           width="630"
+                           data-setup="{}">
+                        <source src="{{note.content.content}}"
+                                type="video/mp4">
+                        </source>
                     </video>
                 </div>
                 {%endif%}
@@ -214,7 +216,6 @@
                 </p>
 				<p>手机：{{ params.user.phone }}</p>
 				<p>邮箱：{{ params.user.email }}</p>
-				<p id="changeInfo">修改个人资料</p>
 				<div>
 					<table>
 						<tr>
@@ -256,7 +257,7 @@
             {%for u in params.users%}
             <div class="list">
                 <div class="head"><img src="{{u.head_path}}"></div>
-                <a class="username"><b>{{u.name}}：</b>{{u.notes.count()}}条帖子</a>
+                <a href="/person?user_id={{u.id}}" class="username"><b>{{u.name}}：</b>{{u.notes.count()}}条帖子</a>
                 <a class="becomeFan">
                     {%if u.id in params.l2%}
                     已关注

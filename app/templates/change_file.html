@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>发图片</title>
+    <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/write_picture.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/myspace.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/change.css" type="text/css">
+    <script src="../static/js/jquery-1.11.3.js"></script>
+	<script src="../static/js/change.js"></script>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</head>
+<body>
+<!--1.标题栏-->
+<div id="container">
+    <!--1.1导航栏-->
+    <div id="nav">
+        <!--1.1.1logo -->
+        <div id="logo"><img src="../static/images/dog.png"></div>
+        <!--1.1.2左侧导航栏-->
+         <div id="leftNav">
+            <a href="/">最新帖子</a>
+			<a href="/list?type=1">排行榜</a>
+			<a href="/class">帖子分类</a>
+			<a href="/friends?note_info=关注">好友动态</a>
+			<a href="/myspace?note_info=my">个人中心</a>
+        </div>
+        <!--1.1.3登录/注册-->
+        <div id="rightNav">
+            {%if not params.user%}
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            {%else%}
+                <a href="#">欢迎{{params.user.name}}</a>
+                <a href="/logout">退出</a>
+            {%endif%}
+        </div>
+    </div>
+</div>
+<!--2.主体内容-->
+<div id="main">
+    <!--2.1左边主体内容-->
+    <div id="leftMain">
+        <!--2.1.1分时导航栏-->
+        <div id="timeNav">
+            <a style="width:200px;font-weight: bold;">修改个人资料</a>
+        </div>
+        <!--2.1.2永久悬浮导航栏-->
+        <!--2.1.3显示内容-->
+		<div id="witeContent">
+			<form action="/change_file" method="post" enctype="multipart/form-data" onsubmit="return change_check()">
+				<p id="file">
+					<b style="font-weight: bold;font-size: 16px;color: black">修改头像：</b>
+                    <input type="file" name="headImg">
+				</p>
+                <p>
+                    <input type="text" name="uname" id="uname" class="registerInput" placeholder="用户名">
+                    <span id="uname-tip"></span>
+				</p>
+				<p>
+                    <input type="text" name="email" id="email" class="registerInput" placeholder="请输入邮箱">
+                    <span id="email-tip"></span>
+				</p>
+				<p>
+                    <input type="password" name="upwd" id="upwd" class="registerInput"  placeholder="密码：6~18位">
+                    <span id="upwd-tip"></span>
+				</p>
+				<p>
+					<input type="password" name="upwd2" id="upwd2" class="registerInput" placeholder="确认密码：6~18位">
+					<span id="upwd2-tip"></span>
+				</p>
+				<p>
+                    <button type="submit" id="btnChange">确认修改</button>
+				</p>
+			</form>
+		</div>
+    </div>
+    <!--2.3右边主体内容-->
+    <div id="rightMain">
+        <!--2.3.1发帖-->
+        {%if params.user%}
+		    <div id="userInfo">
+			<div id="headBg">
+				<img src="../static/images/class.jpg">
+				<div id="headPhoto">
+					<img src="{{ params.user.head_path }}">
+				</div>
+			</div>
+			<div id="friendsInfo">
+				<h3>{{ params.user.name }}</h3>
+				<p>性别：
+                    {% if params.user.gender==1 %}
+                        男
+                    {% else %}
+                        女
+                    {% endif %}
+                </p>
+				<p>手机：{{ params.user.phone }}</p>
+				<p>邮箱：{{ params.user.email }}</p>
+				<p id="changeInfo">修改个人资料</p>
+				<div>
+					<table>
+						<tr>
+							<td>
+                                {{params.fans.count()}}
+                            </td>
+							<td>
+                                {{params.idos.count()}}
+                            </td>
+							<td class="tdend">{{params.user.notes.count()}}</td>
+						</tr>
+						<tr>
+							<td>粉丝</td>
+							<td>关注</td>
+							<td class="tdend">帖子</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+        {%endif%}
+        <div id="addBlog">
+			<div>
+				<img src="../static/images/pen.png">
+				<a href="/add_word">发段子</a>
+				<img src="../static/images/picture.png">
+				<a href="add_picture">发图片</a>
+			</div>
+			<div>
+				<img src="../static/images/map.png">
+				<a href="add_gif">发动图</a>
+				<img src="../static/images/video.png">
+				<a href="add_video">发视频</a>
+			</div>
+        </div>
+        <!--2.3.2好友信息-->
+        <div class="addList">
+            <p>我的关注</p>
+            {%if params.l2%}
+            {% for user in params.l2 %}
+            <div class="list">
+                <div class="head"><img src="{{user.head_path}}"></div>
+                <span class="username"><b>{{user.name}}：</b>
+                    {%if user.notes%}
+                    {{user.notes.count()}}
+                    {%else%}
+                    0
+                    {%endif%}
+                    条帖子</span>
+                <a href="/person?user_id={{user.id}}" class="becomeFan">详细信息</a>
+            </div>
+            {% endfor %}
+            {%endif%}
+        </div>
+        <div class="addList">
+            <p>我的粉丝</p>
+            {%if params.l1%}
+            {% for user in params.l1 %}
+            <div class="list">
+                <div class="head"><img src="{{user.head_path}}"></div>
+                <span class="username"><b>{{user.name}}：</b>
+                    {%if user.notes%}
+                    {{user.notes.count()}}
+                    {%else%}
+                    0
+                    {%endif%}
+                    条帖子</span>
+                <a href="/person?user_id={{user.id}}" class="becomeFan">详细信息</a>
+            </div>
+            {% endfor %}
+            {%endif%}
+        </div>
+    </div>
+</div>
+<!--3.版权栏-->
+<div id="end">
+    <div>
+        <div id="endTop">
+            <a href="#" target="_blank">关于我们</a> |
+            <a href="#" target="_blank">广告投放</a> |
+            <a href="#" target="_blank">版权声明</a> |
+            <a href="#" target="_blank">免责声明</a> |
+            <a href="#" target="_blank">网站地图</a> |
+            <a href="#" target="_blank">友情链接</a> |
+            <a href="#" target="blank">在线交谈</a>
+        </div>
+        <div id="endCopy">
+            <p>版权所有 2006-2018 设计之家(www.douniwan.com)</p>
+            <p>Copyright © 2006-2018 www.douniwan.com All rights reserved.</p>
+        </div>
+    </div>
+</div>
+<!--悬浮框-->
+<div id="adj">
+    <div id="qq">
+        <img src="../static/images/qq.png" title="2890353332">
+    </div>
+    <div id="wechat">
+        <img src="../static/images/wechat.png" title="18581589937">
+    </div>
+</div>
+</body>
+</html>
+
+
+

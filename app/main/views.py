@@ -95,7 +95,10 @@ def list_views():
     contents = Note_content.query.filter_by(type=type).all()
     notes = []
     for con in contents:
-        notes.append(con.note)
+        if con.note != None:
+            notes.append(con.note)
+        else:
+            continue
     notes = notes[::-1]
     notes = sorted(notes, key=sort_raise, reverse=True)
 
@@ -257,7 +260,7 @@ def myspace_views():
         if note_info == "my":
             notes = Notes.query.filter_by(user_id=id).all()
         if note_info == "addblog":
-            user_note = User_note_attention.query.filter_by(user_id = id).all()
+            user_note = User_note_attention.query.filter_by(user_id=id).all()
             for un in user_note:
                 notes.append(Notes.query.filter_by(id=un.note_id).first())
         notes = notes[::-1]
@@ -309,13 +312,19 @@ def info_views():
             l2.append(j[0])
     note_id = request.args["note_id"]
     note = Notes.query.filter_by(id=note_id).first()
-    if int(note_id) > 1:
-        prev_note_id = int(note_id) - 1
+    note_list = db.session.query(Notes.id).all()
+    list = []
+    for i in note_list:
+        list.append(i[0])
+    max = len(list)
+    oper = list.index(int(note_id))
+    if oper > 0:
+        prev_note_id = list[oper - 1]
     else:
-        prev_note_id = 1
-    if int(note_id) < Notes.query.count():
-        next_note_id = int(note_id) + 1
+        prev_note_id = list[0]
+    if oper < max-1:
+        next_note_id = list[oper+1]
     else:
-        next_note_id = Notes.query.count()
+        next_note_id = list[max-1]
 
     return render_template("read.html", params=locals())

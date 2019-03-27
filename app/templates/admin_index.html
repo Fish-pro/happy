@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <title>分享快乐</title>
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>-->
+    <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/index.css" type="text/css">
+	<script src="../static/js/jquery-1.11.3.js"></script>
+	<script src="../static/js/admin.js"></script>
+    <script>
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    </script>
+</head>
+<body>
+<!--1.标题栏-->
+<div id="container">
+    <!--1.1导航栏-->
+    <div id="nav">
+        <!--1.1.1logo -->
+        <div id="logo"><img src="../static/images/dog.png"></div>
+        <!--1.1.2左侧导航栏-->
+        <div id="leftNav">
+			<a>后台管理</a>
+        </div>
+        <!--1.1.3登录/注册-->
+        <div id="rightNav">
+            <a href="#">欢迎{{params.admin.admin_name}}管理员</a>
+            <a href="/adminlogout">退出</a>
+        </div>
+    </div>
+</div>
+<!--2.主体内容-->
+<div id="main">
+    <!--2.1左边主体内容-->
+    <div id="leftMain">
+        <!--2.1.1分时导航栏-->
+        <div id="timeNav">
+            <a>我是管理员，都得听我的</a>
+        </div>
+
+        <!--2.1.3显示内容-->
+        {%for note in params.notes%}
+            <div class="content">
+            <!--用户信息和标题-->
+            <div class="contentTop">
+                <div class="headImg">
+                    <img src="{{note.user.head_path}}">
+                </div>
+                <div class="title_user">
+                    <p class="username">
+                        <a href="/person?user_id={{note.user.id}}">{{note.user.name}}</a>
+                    </p>
+                    <p class="title">
+                        <a href="#" class="titleContent">{{note.content.title}}</a>
+                    </p>
+                </div>
+                <span>{{note.create_date}}</span>
+            </div>
+            <!--帖子内容-->
+            <div class="contentCenter">
+                {%if note.content.type==1%}
+                <p>
+                    {{note.content.content}}
+                </p>
+                {%elif note.content.type==2%}
+                <div class="contentImg">
+                    <img src="{{note.content.content}}">
+                </div>
+                {%elif note.content.type==3%}
+                <div class="contentImg">
+                    <img src="{{note.content.content}}">
+                </div>
+                {%elif note.content.type==4%}
+                <div class="contentImg">
+                    <video id="my-video"
+                           class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9"
+                           controls preload="auto"
+                           poster=""
+                           width="630"
+                           data-setup="{}">
+                        <source src="{{note.content.content}}"
+                                type="video/mp4">
+                        </source>
+                    </video>
+                </div>
+                {%endif%}
+            </div>
+            <!--点赞踩评论分享-->
+            <input type="hidden" class="note_id" value="{{note.id}}">
+            <div class="contentBottom">
+				<ul>
+                    <li class="like">
+                        <img src="../static/images/like.jpg">
+                        <span>{{note.note_raise}}</span>
+                    </li>
+                    <li class="unlike">
+						<img src="../static/images/unlike.png">
+                        <span>{{note.down}}</span>
+                    </li>
+                    <li class="fav talk">
+						<img src="../static/images/talk.jpg">
+                    </li>
+                </ul>
+                <a>展开>></a>
+                <a href="/admin_delete?note_id={{note.id}}">删除</a>
+            </div>
+            <!--评论沙发-->
+            <div class="commit">
+                <div class="commitTalk">
+                    <p>
+                    </p>
+                </div>
+                {%for com in note.comments[::-1]%}
+                <div class="commitHistory">
+                    <div class="head1">
+                        <img src="{{com.user.head_path}}">
+                    </div>
+                    <div class="historyContent">
+                        <p>
+                            <b>{{com.user.name}}说：</b>{{com.content}}({{com.date.strftime("%Y-%m-%d")}})
+                        </p>
+                    </div>
+                    <input type="hidden" class="com_id" value="{{com.id}}">
+                    <div class="commitlike">
+                        <ul>
+                            <li class="com_like">
+                                <img src="../static/images/like.jpg">
+                                <span>{{com.comment_raise}}</span>
+                            </li>
+                            <li class="com_unlike">
+                                <img src="../static/images/unlike.png">
+                                <span>{{com.down}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        {%endfor%}
+        <!--分页栏-->
+        <div id="page">
+            <div>
+                <a class="num" href="/admin?page=1">首页</a>
+                <a class="num" href="/admin?page={{ params.prePage }}">上一页</a>
+                <a class="num" href="/admin?page={{ params.nextPage }}">下一页</a>
+                <a class="num" href="/admin?page={{ params.lastPage }}">尾页</a>
+                <div id="change">
+                    <a id="choosePage">跳转</a>至
+                    <input type="text" name="page" value='{{params.page}}'>
+                    共<b id="lastPage">{{params.lastPage}}</b>页
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--2.3右边主体内容-->
+    <div id="rightMain">
+        <!--2.3.1发帖-->
+        <div id="userInfo">
+			<div id="headBg">
+				<img src="../static/images/class.jpg">
+				<div id="headPhoto">
+					<img src="/static/images/class9.jpg">
+				</div>
+			</div>
+			<div id="friendsInfo">
+				<h3>{{ params.admin.admin_name }}</h3>
+				<p style="color:red;font-weight:bold;">用户总数：{{params.total_users}}</p>
+                <p>男：{{params.man }}</p>
+				<p>女：{{params.woman }}</p>
+				<p style="color:red;font-weight:bold;">帖子总数：{{params.total_notes}}</p>
+				<p>段子：{{params.total_words}}</p>
+                <p>图片：{{params.total_pictures }}</p>
+				<p>动图：{{params.total_gifs}}</p>
+				<p>视频：{{params.total_videos}}</p>
+
+			</div>
+		</div>
+        <!--2.3.2用户排行榜-->
+        <!--2.3.3精彩段子-->
+        <div class="niceWord">
+            <p>精彩段子</p>
+            <ol>
+                {%for nc in params.words[0:6]%}
+                <li>
+                    <a href="/info?note_id={{nc.note_id}}">
+                        {{nc.title}}
+                    </a>
+                </li>
+                {%endfor%}
+            </ol>
+        </div>
+        <!--2.3.4精彩图片-->
+        <div class="nicePhoto">
+            <p>精彩图片</p>
+            {%for p in params.pictures[0:6]%}
+            <div class="nicePh">
+                <a href="/info?note_id={{p.note_id}}">
+                    <img src="{{p.content}}">
+                    <p>{{p.title}}</p>
+                </a>
+            </div>
+            {%endfor%}
+        </div>
+        <!--2.3.5精彩动图-->
+        <div class="nicePhoto">
+            <p>精彩动图</p>
+            {%for g in params.gifs[0:6]%}
+            <div class="nicePh">
+                <a href="/info?note_id={{g.note_id}}">
+                    <img src="{{g.content}}">
+                    <p>{{g.title}}</p>
+                </a>
+            </div>
+            {%endfor%}
+        </div>
+        <!--2.3.6精彩视频-->
+        <div class="niceWord">
+            <p>精彩视频</p>
+            <ol>
+                {%for v in params.videos[0:6]%}
+                <li>
+                    <a href="/info?note_id={{v.note_id}}">
+                        {{v.title}}
+                    </a>
+                </li>
+                {%endfor%}
+            </ol>
+        </div>
+    </div>
+</div>
+<!--3.版权栏-->
+<div id="end">
+    <div>
+        <div id="endTop">
+            <a href="#" target="_blank">关于我们</a> |
+            <a href="#" target="_blank">广告投放</a> |
+            <a href="#" target="_blank">版权声明</a> |
+            <a href="#" target="_blank">免责声明</a> |
+            <a href="#" target="_blank">网站地图</a> |
+            <a href="#" target="_blank">友情链接</a> |
+            <a href="#" target="blank">在线交谈</a>
+        </div>
+        <div id="endCopy">
+            <p>版权所有 2006-2018 设计之家(www.douniwan.com)</p>
+            <p>Copyright © 2006-2018 www.douniwan.com All rights reserved.</p>
+        </div>
+    </div>
+</div>
+<!--悬浮框-->
+<div id="adj">
+    <div id="qq">
+        <img src="../static/images/qq.png" title="2890353332">
+    </div>
+    <div id="wechat">
+        <img src="../static/images/wechat.png" title="18581589937">
+    </div>
+</div>
+</body>
+</html>
+
+

@@ -156,7 +156,9 @@ a:hover{
 }
 .contentCenter>p{
 	margin:15px 40px;
-	font-size:14px;
+	font-family:"微软雅黑";
+	line-height:40px;
+	font-size:18px;
 	color:black;
 }
 /*点赞分享栏*/
@@ -320,12 +322,13 @@ a:hover{
 	color:black;
 	margin-bottom:10px;
 }
-#friendsInfo #changeInfo{
+#friendsInfo a{
 	text-align:right;
 	margin-right:10px;
 	color:blue;
+	cursor: pointer;
 }
-#friendsInfo #changeInfo:hover{
+#friendsInfo a:hover{
 	color:red;
 }
 #friendsInfo table{
@@ -344,6 +347,9 @@ a:hover{
 }
 #friendsInfo .tdend{
 	border-right:0;
+}
+#changeInfo{
+	text-align: right;
 }
 /*发帖*/
 #addBlog>div{

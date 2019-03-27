@@ -13,6 +13,7 @@ from . import notes
 from .. import db
 from ..models import *
 
+
 # 定义一个函数用于图片动图，视频文件的存储并返回保存路劲
 def saveFile(f, path):
     # 2.构建保存路劲
@@ -29,6 +30,7 @@ def saveFile(f, path):
 
 def sort_notes(x):
     return x.notes.count()
+
 
 # 分享段子
 @notes.route("/add_word", methods=["GET", "POST"])
@@ -360,7 +362,7 @@ def addbook_views():
         id = session["id"]
         attention1 = User_note_attention.query.filter_by(user_id=id, note_id=note_id).first()
         if attention1:
-            res = {"num":2}
+            res = {"num": 2}
         else:
             attention = User_note_attention()
             attention.note_id = note_id
@@ -371,3 +373,39 @@ def addbook_views():
         res = {"num": 0}
     jsonStr = json.dumps(res)
     return jsonStr
+
+
+@notes.route("/delete_note")
+def delete_note_views():
+    id = session["id"]
+    note_id = request.args["note_id"]
+    note_info = request.args["note_info"]
+    print(note_info, note_id)
+    if note_info == "my":
+        note = Notes.query.filter_by(id=note_id).first()
+        if note.content:
+            db.session.delete(note.content)
+        if note.comments:
+            for com in note.comments:
+                db.session.delete(com)
+        db.session.delete(note)
+    if note_info == "addblog":
+        user_attention = User_note_attention.query.filter_by(user_id=id, note_id=note_id).first()
+        db.session.delete(user_attention)
+    return redirect("/myspace?note_info=" + note_info)
+
+
+@notes.route("/admin_delete")
+def admin_delete_note_views():
+    if "admin" in session:
+        note_id = request.args["note_id"]
+        note = Notes.query.filter_by(id=note_id).first()
+        if note.content:
+            db.session.delete(note.content)
+        if note.comments:
+            for com in note.comments:
+                db.session.delete(com)
+        db.session.delete(note)
+        return redirect("/admin")
+    else:
+        return redirect("/adminlogin")

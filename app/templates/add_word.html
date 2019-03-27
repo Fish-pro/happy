@@ -94,7 +94,6 @@
                 </p>
 				<p>手机：{{ params.user.phone }}</p>
 				<p>邮箱：{{ params.user.email }}</p>
-				<p id="changeInfo">修改个人资料</p>
 				<div>
 					<table>
 						<tr>
@@ -136,7 +135,7 @@
             {%for u in params.users%}
             <div class="list">
                 <div class="head"><img src="{{u.head_path}}"></div>
-                <a class="username"><b>{{u.name}}：</b>{{u.notes.count()}}条帖子</a>
+                <a href="/person?user_id={{u.id}}" class="username"><b>{{u.name}}：</b>{{u.notes.count()}}条帖子</a>
                 <a class="becomeFan">
                     {%if u.id in params.l2%}
                     已关注

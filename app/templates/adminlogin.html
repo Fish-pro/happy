@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>登陆</title>
+  <link rel="shortcut icon" href="../static/images/login_dog.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../static/css/login.css" type="text/css">
+ </head>
+<body>
+<!--1.标题栏-->
+<div id="container">
+    <!--1.1导航栏-->
+    <div id="nav">
+        <!--1.1.1logo -->
+        <div id="logo"><img src="../static/images/dog.png"></div>
+        <!--1.1.2左侧导航栏-->
+        <div id="leftNav">
+            <a href="/">最新帖子</a>
+			<a href="/list?type=1">排行榜</a>
+			<a href="/class">帖子分类</a>
+			<a href="/friends?note_info=关注">好友动态</a>
+			<a href="/myspace?note_info=my">个人中心</a>
+        </div>
+        <!--1.1.3登录/注册-->
+        <div id="rightNav">
+            <a href="/login">登录</a>
+            <a href="/register">注册</a>
+        </div>
+    </div>
+</div>
+<!--main-->
+<div id="login_main">
+	<div id="login_left">
+		<div>
+			<h1>管理员登录!</h1>
+			<form action="/adminlogin" method="post">
+				<p>
+					<input type="text" name="adminname" class="loginInput" placeholder="用户名">
+				</p>
+				<p>
+					<input type="password" name="upwd" class="loginInput" placeholder="密码">
+				</p>
+				<p id="submit">
+					<input type="submit" value="登录" id="btnLogin">
+				</p>
+                <a href="/adminlogin">我是管理员</a>
+			</form>
+		</div>
+	</div>
+	<div id="login_right">
+		<img src="../static/images/welcome_dog.png">
+	</div>
+</div>
+<!--3.版权栏-->
+<div id="end">
+    <div>
+        <div id="endTop">
+            <a href="#" target="_blank">关于我们</a> |
+            <a href="#" target="_blank">广告投放</a> |
+            <a href="#" target="_blank">版权声明</a> |
+            <a href="#" target="_blank">免责声明</a> |
+            <a href="#" target="_blank">网站地图</a> |
+            <a href="#" target="_blank">友情链接</a> |
+            <a href="#" target="blank">在线交谈</a>
+        </div>
+        <div id="endCopy">
+            <p>版权所有 2006-2018 设计之家(www.douniwan.com)</p>
+            <p>Copyright © 2006-2018 www.douniwan.com All rights reserved.</p>
+        </div>
+    </div>
+</div>
+<!--悬浮框-->
+<div id="adj">
+    <div id="qq">
+        <img src="../static/images/qq.png">
+    </div>
+    <div id="wechat">
+        <img src="../static/images/wechat.png">
+    </div>
+</div>
+</body>
+</html>
+
