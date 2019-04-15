@@ -6,13 +6,13 @@
     <meta name="Author" content="">
     <meta name="Keywords" content="">
     <meta name="Description" content="">
+    {% block css_js %}
     <title>分享快乐</title>
-    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video-js.min.css" rel="stylesheet">-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.3.0/video.min.js"></script>-->
     <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/index.css" type="text/css">
 	<script src="../static/js/jquery-1.11.3.js"></script>
 	<script src="../static/js/index.js"></script>
+    {% endblock %}
     <script>
         window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
         with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
@@ -24,7 +24,9 @@
     <!--1.1导航栏-->
     <div id="nav">
         <!--1.1.1logo -->
-        <div id="logo"><img src="../static/images/dog.png"></div>
+        <div id="logo">
+            <a href="/"><img src="../static/images/dog.png"></a>
+        </div>
         <!--1.1.2左侧导航栏-->
         <div id="leftNav">
             <a href="/">最新帖子</a>
@@ -39,7 +41,7 @@
                 <a href="/login">登录</a>
                 <a href="/register">注册</a>
             {%else%}
-                <a href="#">欢迎{{params.user.name}}</a>
+                <a href="//myspace?note_info=my">欢迎 <span style="color:cyan;">{{params.user.name}}</span></a>
                 <a href="/logout">退出</a>
             {%endif%}
         </div>
@@ -51,8 +53,10 @@
     </div>
 </div>
 <!--2.主体内容-->
+{% block main %}
 <div id="main">
     <!--2.1左边主体内容-->
+    {% block leftmain %}
     <div id="leftMain">
         <!--2.1.1分时导航栏-->
         <div id="timeNav">
@@ -81,7 +85,7 @@
                         <a href="/person?user_id={{note.user.id}}">{{note.user.name}}</a>
                     </p>
                     <p class="title">
-                        <a href="#" class="titleContent">{{note.content.title}}</a>
+                        <a href="/info?note_id={{note.id}}" class="titleContent">{{note.content.title}}</a>
                     </p>
                 </div>
                 <span>{{note.create_date}}</span>
@@ -194,6 +198,7 @@
             </div>
         </div>
     </div>
+    {% endblock %}
     <!--2.3右边主体内容-->
     <div id="rightMain">
         <!--2.3.1发帖-->
@@ -321,6 +326,7 @@
         </div>
     </div>
 </div>
+{% endblock %}
 <!--3.版权栏-->
 <div id="end">
     <div>

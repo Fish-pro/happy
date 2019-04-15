@@ -94,10 +94,3 @@ class Note_comment(db.Model):
         }
         return dict
 
-
-class Chat(db.Model):
-    __tablename__ = "chat"
-    id = db.Column(db.Integer, primary_key=True)
-    send_id = db.Column(db.Integer, nullable=False)
-    recv_id = db.Column(db.Integer, nullable=False)
-    content = db.Column(db.String(300), nullable=False)

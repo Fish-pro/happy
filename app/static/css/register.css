@@ -67,9 +67,9 @@ a:hover{
 
 #register_main{
 	width:990px;
-	height:500px;
 	margin:20px auto;
 	background:white;
+	overflow: hidden;
 }
 #register_left{
 	width:600px;

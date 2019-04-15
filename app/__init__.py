@@ -1,3 +1,4 @@
+
 """
 app包包含所有的程序处理相关文件（静态文件，模板文件，实体类，以及各个业务包处理）
 __innt__.py:
@@ -17,7 +18,7 @@ def create_app():
     # 指定各种配置
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = "suibianxie"
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://York:123456@localhost:3306/hobby"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://York:123456@localhost:3306/blog"
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # 关联db和app

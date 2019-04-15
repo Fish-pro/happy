@@ -1,157 +1,92 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="Generator" content="EditPlus®">
-    <meta name="Author" content="">
-    <meta name="Keywords" content="">
-    <meta name="Description" content="">
+{% extends "index.html" %}
+{% block css_js %}
     <title>分类</title>
     <link rel="shortcut icon" href="../static/images/title.ico" type="image/x-icon">
     <link rel="stylesheet" href="../static/css/class.css" type="text/css">
-	<script>
-        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":["tsina","weixin","mail","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"32"},"slide":{"type":"slide","bdImg":"3","bdPos":"right","bdTop":"80"}};
-        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-    </script>
-</head>
-<body>
-<!--1.标题栏-->
-<div id="container">
-    <!--1.1导航栏-->
-    <div id="nav">
-        <!--1.1.1logo -->
-        <div id="logo"><img src="../static/images/dog.png"></div>
-        <!--1.1.2左侧导航栏-->
-        <div id="leftNav">
-            <a href="/">最新帖子</a>
-			<a href="/list?type=1">排行榜</a>
-			<a href="/class">帖子分类</a>
-			<a href="/friends?note_info=关注">好友动态</a>
-			<a href="/myspace?note_info=my">个人中心</a>
-        </div>
-        <!--1.1.3登录/注册-->
-        <div id="rightNav">
-            {%if not params.user%}
-                <a href="/login">登录</a>
-                <a href="/register">注册</a>
-            {%else%}
-                <a href="#">欢迎{{params.user.name}}</a>
-                <a href="/logout">退出</a>
-            {%endif%}
-        </div>
-    </div>
-</div>
-<!--2.主体内容-->
-<div id="classMain">
-	<table>
-		<tr>
-			<td>
-				<a href="/search?key=搞笑">
-				<img src="../static/images/class.jpg">
-				<span>搞笑</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=男女">
-				<img src="../static/images/class1.jpg">
-				<span>男女</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=职场">
-				<img src="../static/images/class2.jpg">
-				<span>职场</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=校园">
-				<img src="../static/images/class3.jpg">
-				<span>校园</span>
-				</a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="/search?key=大妈">
-				<img src="../static/images/class4.jpg">
-				<span>大妈</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=妹子">
-				<img src="../static/images/class5.jpg">
-				<span>妹子</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=搞怪">
-				<img src="../static/images/class6.jpg">
-				<span>搞怪</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=逗逼">
-				<img src="../static/images/class7.jpg">
-				<span>逗逼</span>
-				</a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<a href="/search?key=整蛊">
-				<img src="../static/images/class8.jpg">
-				<span>整蛊</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=实验">
-				<img src="../static/images/class9.jpg">
-				<span>实验</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=热点">
-				<img src="../static/images/class10.jpg">
-				<span>热点</span>
-				</a>
-			</td>
-			<td>
-				<a href="/search?key=考试">
-				<img src="../static/images/class11.jpg">
-				<span>考试</span>
-				</a>
-			</td>
-		</tr>
-	</table>
-</div>
-<!--3.版权栏-->
-<div id="end">
-    <div>
-        <div id="endTop">
-            <a href="#" target="_blank">关于我们</a> |
-            <a href="#" target="_blank">广告投放</a> |
-            <a href="#" target="_blank">版权声明</a> |
-            <a href="#" target="_blank">免责声明</a> |
-            <a href="#" target="_blank">网站地图</a> |
-            <a href="#" target="_blank">友情链接</a> |
-            <a href="#" target="blank">在线交谈</a>
-        </div>
-        <div id="endCopy">
-            <p>版权所有 2006-2018 设计之家(www.douniwan.com)</p>
-            <p>Copyright © 2006-2018 www.douniwan.com All rights reserved.</p>
-        </div>
-    </div>
-</div>
-<!--悬浮框-->
-<div id="adj">
-    <div id="qq">
-        <img src="../static/images/qq.png">
-    </div>
-    <div id="wechat">
-        <img src="../static/images/wechat.png">
-    </div>
-</div>
-</body>
-</html>
-
+{% endblock %}
+{% block main %}
+	<!--2.主体内容-->
+	<div id="classMain">
+		<table>
+			<tr>
+				<td>
+					<a href="/search?key=搞笑">
+					<img src="../static/images/class.jpg">
+					<span>搞笑</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=男女">
+					<img src="../static/images/class1.jpg">
+					<span>男女</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=职场">
+					<img src="../static/images/class2.jpg">
+					<span>职场</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=校园">
+					<img src="../static/images/class3.jpg">
+					<span>校园</span>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="/search?key=大妈">
+					<img src="../static/images/class4.jpg">
+					<span>大妈</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=妹子">
+					<img src="../static/images/class5.jpg">
+					<span>妹子</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=搞怪">
+					<img src="../static/images/class6.jpg">
+					<span>搞怪</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=逗逼">
+					<img src="../static/images/class7.jpg">
+					<span>逗逼</span>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a href="/search?key=整蛊">
+					<img src="../static/images/class8.jpg">
+					<span>整蛊</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=实验">
+					<img src="../static/images/class9.jpg">
+					<span>实验</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=热点">
+					<img src="../static/images/class10.jpg">
+					<span>热点</span>
+					</a>
+				</td>
+				<td>
+					<a href="/search?key=考试">
+					<img src="../static/images/class11.jpg">
+					<span>考试</span>
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+{% endblock %}
 

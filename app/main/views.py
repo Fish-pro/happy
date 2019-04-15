@@ -11,21 +11,32 @@ from ..models import *
 
 
 def sort_notes(x):
+    """
+    用于处理用户排序的排序依据
+    :param x:
+    :return:
+    """
     return x.notes.count()
 
 
 def sort_raise(x):
+    """
+    点赞排序计数
+    :param x:
+    :return:
+    """
     return x.note_raise
 
 
+# 处理主页显示相关的操作
 @main.route('/')
 def index_views():
     # 读取所有用户信息
     users = Users.query.all()
     users = sorted(users, key=sort_notes, reverse=True)[0:6]
     words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
-    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
-    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:6]
+    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:6]
     videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
     # 判断是否有登录用户(id和name)
     if "id" in session and "name" in session:
@@ -63,14 +74,15 @@ def index_views():
     return render_template("index.html", params=locals())
 
 
+# 处理排行榜相关的操作
 @main.route('/list')
 def list_views():
     # 读取所有用户信息
     users = Users.query.all()
     users = sorted(users, key=sort_notes, reverse=True)[0:6]
     words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
-    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
-    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:6]
+    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:6]
     videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
     # 判断是否有登录用户(id和name)
     if "id" in session and "name" in session:
@@ -118,6 +130,7 @@ def list_views():
     return render_template("list.html", params=locals())
 
 
+# 分类页面显示
 @main.route('/class')
 def class_views():
     if "id" in session and "name" in session:
@@ -126,14 +139,15 @@ def class_views():
     return render_template("class.html", params=locals())
 
 
+# 处理分类显示
 @main.route("/search")
 def search_views():
     # 读取所有用户信息
     users = Users.query.all()
     users = sorted(users, key=sort_notes, reverse=True)[0:6]
     words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
-    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
-    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:6]
+    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:6]
     videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
     # 判断是否有登录用户(id和name)
     if "id" in session and "name" in session:
@@ -181,6 +195,7 @@ def search_views():
     return render_template('serach.html', params=locals())
 
 
+# 处理好友动态页面
 @main.route('/friends')
 def friends_views():
     if "id" in session and "name" in session:
@@ -188,8 +203,8 @@ def friends_views():
         users = Users.query.all()
         users = sorted(users, key=sort_notes, reverse=True)[0:6]
         words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
-        pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
-        gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+        pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:6]
+        gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:6]
         videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
 
         id = session['id']
@@ -239,6 +254,7 @@ def friends_views():
         return render_template("login.html")
 
 
+# 处理个人中心页面
 @main.route('/myspace')
 def myspace_views():
     if "id" in session and "name" in session:
@@ -292,14 +308,15 @@ def myspace_views():
         return render_template("login.html")
 
 
+# 处理单条帖子阅读页面
 @main.route("/info")
 def info_views():
     # 读取所有用户信息
     users = Users.query.all()
     users = sorted(users, key=sort_notes, reverse=True)[0:6]
     words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
-    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
-    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:6]
+    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:6]
     videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
     # 判断是否有登录用户(id和name)
     if "id" in session and "name" in session:
@@ -322,9 +339,9 @@ def info_views():
         prev_note_id = list[oper - 1]
     else:
         prev_note_id = list[0]
-    if oper < max-1:
-        next_note_id = list[oper+1]
+    if oper < max - 1:
+        next_note_id = list[oper + 1]
     else:
-        next_note_id = list[max-1]
+        next_note_id = list[max - 1]
 
     return render_template("read.html", params=locals())

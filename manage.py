@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 """
 启动和管理相关操作代码
 通过Manager管理项目，通过migrate增加数据迁移

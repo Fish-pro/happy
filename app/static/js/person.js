@@ -1,6 +1,6 @@
 <!-- 展开按钮 -->
 $(function () {
-    $(".contentBottom .extend").each(function () {
+    $(".extend").each(function () {
         $(this).click(function () {
             $(this).parent("div").prev("input").prev("div").css("height", "auto");
         });

@@ -29,6 +29,11 @@ def saveFile(f, path):
 
 
 def sort_notes(x):
+    """
+    排序计数
+    :param x:
+    :return:
+    """
     return x.notes.count()
 
 
@@ -234,8 +239,8 @@ def longclass_views():
     users = Users.query.all()
     users = sorted(users, key=sort_notes, reverse=True)[0:6]
     words = db.session.query(Note_content).filter(Note_content.type == 1).all()[:6]
-    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:4]
-    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:4]
+    pictures = db.session.query(Note_content).filter(Note_content.type == 2).all()[:6]
+    gifs = db.session.query(Note_content).filter(Note_content.type == 3).all()[:6]
     videos = db.session.query(Note_content).filter(Note_content.type == 4).all()[:6]
     # 判断是否有登录用户(id和name)
     if "id" in session and "name" in session:
@@ -247,7 +252,7 @@ def longclass_views():
         for j in idos.all():
             l2.append(j[0])
     # 每页显示的记录数量
-    pageSize = 20
+    pageSize = 15
     # 接收前段传过来的参数page,,如果没有传递过来，则默认为１，并保存在page变量中
     page = int(request.args.get('page', 1))
     ost = (page - 1) * pageSize
@@ -278,7 +283,7 @@ def longclass_views():
 
     return render_template("longclass.html", params=locals())
 
-
+#处理用户评论操作
 @notes.route("/comment")
 def comment_views():
     if "id" in session and "name" in session:
@@ -296,19 +301,17 @@ def comment_views():
         db.session.add(comment)
 
         comments = Note_comment.query.all()
-        print(comment)
         l = []
         for com in comments:
             if com.note_id == note_id:
                 l.append(com.to_dict())
         l = l[::-1]
         jsonStr = json.dumps(l)
-        print(jsonStr)
         return jsonStr
     else:
         return redirect("/login")
 
-
+#处理用户点赞
 @notes.route("/like")
 def like_views():
     note_id = request.args["note_id"]
@@ -319,7 +322,7 @@ def like_views():
     jsonStr = json.dumps(dict)
     return jsonStr
 
-
+#处理用户踩操作
 @notes.route("/unlike")
 def unlike_views():
     note_id = request.args["note_id"]
@@ -330,7 +333,7 @@ def unlike_views():
     jsonStr = json.dumps(dict)
     return jsonStr
 
-
+#处理评论历史点赞操作
 @notes.route("/com_like")
 def com_like_views():
     com_id = request.args["com_id"]
@@ -341,11 +344,10 @@ def com_like_views():
     jsonStr = json.dumps(dict)
     return jsonStr
 
-
+#处理用户评论踩操作
 @notes.route("/com_unlike")
 def com_unlike_views():
     com_id = request.args["com_id"]
-    print(com_id)
     comment = Note_comment.query.filter_by(id=com_id).first()
     comment.down += 1
     db.session.add(comment)
@@ -353,7 +355,7 @@ def com_unlike_views():
     jsonStr = json.dumps(dict)
     return jsonStr
 
-
+#处理收藏操作
 @notes.route("/addbook")
 def addbook_views():
     try:
@@ -374,27 +376,29 @@ def addbook_views():
     jsonStr = json.dumps(res)
     return jsonStr
 
-
+#处理用户的删帖操作
 @notes.route("/delete_note")
 def delete_note_views():
     id = session["id"]
     note_id = request.args["note_id"]
     note_info = request.args["note_info"]
-    print(note_info, note_id)
     if note_info == "my":
         note = Notes.query.filter_by(id=note_id).first()
+        #删除帖子内容
         if note.content:
             db.session.delete(note.content)
+        #删除帖子评论
         if note.comments:
             for com in note.comments:
                 db.session.delete(com)
+        #删除帖子
         db.session.delete(note)
     if note_info == "addblog":
         user_attention = User_note_attention.query.filter_by(user_id=id, note_id=note_id).first()
         db.session.delete(user_attention)
     return redirect("/myspace?note_info=" + note_info)
 
-
+#处理管理员的删帖操作
 @notes.route("/admin_delete")
 def admin_delete_note_views():
     if "admin" in session:
